@@ -1,7 +1,7 @@
 import ForgotPassword from '@/components/auth/ForgotPassword';
 
 export const metadata = {
-  title: 'Forgot Password - Upgrade Profile',
+  title: 'Forgot Password',
   description: 'Reset your Upgrade Profile password',
 };
 

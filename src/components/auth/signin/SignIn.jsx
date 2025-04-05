@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import styles from './auth.module.css';
+import styles from '../auth.module.css';
 import { signIn } from '@/lib/auth';
 
 export default function SignIn() {
@@ -73,9 +73,9 @@ export default function SignIn() {
           </div>
         </div>
         <div className={styles.rightPanel}>
-          <div className={styles.upgradeButton}>
+          {/* <div className={styles.upgradeButton}>
             <span className={styles.upgradeIcon}>✨</span> Upgrade Profile
-          </div>
+          </div> */}
           
           <div className={styles.formContainer}>
             <h1 className={styles.welcomeTitle}>Welcome back</h1>

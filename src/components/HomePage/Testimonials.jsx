@@ -30,7 +30,7 @@ const Testimonials = () => {
     <section className={styles.testimonials}>
       <div className={styles.container}>
         <div className={styles.heading}>
-          <span className={styles.badge}>Success Stories</span>
+          
           <h2 className={styles.title}>What Our Users Say</h2>
           <p className={styles.subtitle}>
             Hear from professionals who transformed their careers with our AI-powered platform

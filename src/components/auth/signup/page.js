@@ -1,7 +1,7 @@
 import SignUp from '@/components/auth/SignUp';
 
 export const metadata = {
-  title: 'Create Account - Upgrade Profile',
+  title: 'Create Account',
   description: 'Create your Upgrade Profile account',
 };
 
