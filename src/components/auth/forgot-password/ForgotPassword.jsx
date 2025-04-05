@@ -40,9 +40,7 @@ export default function ForgotPassword() {
           </p>
         </div>
         <div className={styles.rightPanel}>
-          <div className={styles.upgradeButton}>
-            <span className={styles.upgradeIcon}>✨</span> Upgrade Profile
-          </div>
+          
           
           <div className={styles.formContainer}>
             <h1 className={styles.welcomeTitle}>Forgot Password</h1>
