@@ -1,5 +1,5 @@
 import styles from './Hero.module.css';
-import Button from '../common/Button';
+import Button from '../../components/common/Button';
 import Image from 'next/image';
 
 export default function Hero() {

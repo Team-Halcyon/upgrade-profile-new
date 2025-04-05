@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import styles from './SubHero.module.css';
-import Button from '../common/Button';
+import Button from '../../components/common/Button';
 import { ArrowRight } from 'lucide-react';
 
 const SubHero = () => {
