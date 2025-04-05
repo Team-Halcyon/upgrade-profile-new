@@ -1,23 +1,22 @@
-'use client';
+"use client";
 
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../auth.module.css';
-import { signIn, resendConfirmationEmail } from '@/lib/auth';
+import { signUp } from '@/lib/auth';
 
-export default function SignIn() {
+export default function SignUpPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
+    fullName: '',
     email: '',
     password: '',
-    rememberMe: false
+    confirmPassword: '',
+    agreeToTerms: false
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [isResendingEmail, setIsResendingEmail] = useState(false);
-  const [showResendButton, setShowResendButton] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -27,59 +26,47 @@ export default function SignIn() {
     });
   };
 
-  const handleResendConfirmation = async () => {
-    setIsResendingEmail(true);
-    setError('');
-    setSuccessMessage('');
-
-    try {
-      const result = await resendConfirmationEmail(formData.email);
-      if (result.success) {
-        setSuccessMessage(result.message);
-      } else {
-        setError(result.message);
-      }
-    } catch (err) {
-      setError('Failed to resend confirmation email. Please try again.');
-    } finally {
-      setIsResendingEmail(false);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-    setSuccessMessage('');
-    setShowResendButton(false);
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!formData.agreeToTerms) {
+      setError('You must agree to the Terms of Service and Privacy Policy');
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      const result = await signIn(formData);
+      const result = await signUp(formData);
       if (result.success) {
         router.push('/dashboard');
       } else {
-        setError(result.message);
-        if (result.isEmailUnconfirmed) {
-          setShowResendButton(true);
-        }
+        setError(result.message || 'Failed to create account. Please try again.');
       }
     } catch (err) {
       setError('An error occurred. Please try again later.');
-      console.error('Sign in error:', err);
+      console.error('Sign up error:', err);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleOAuthSignIn = async (provider) => {
+  const handleOAuthSignUp = async (provider) => {
     setIsLoading(true);
     try {
-      // Implementation for OAuth sign-in
-      await signIn({ provider });
+      // Implementation for OAuth sign-up
+      await signUp({ provider });
       router.push('/dashboard');
     } catch (err) {
-      setError(`Failed to sign in with ${provider}`);
-      console.error(`${provider} sign in error:`, err);
+      setError(`Failed to sign up with ${provider}`);
+      console.error(`${provider} sign up error:`, err);
     } finally {
       setIsLoading(false);
     }
@@ -100,36 +87,25 @@ export default function SignIn() {
           </div>
         </div>
         <div className={styles.rightPanel}>
-          {/* <div className={styles.upgradeButton}>
-            <span className={styles.upgradeIcon}>✨</span> Upgrade Profile
-          </div> */}
-          
           <div className={styles.formContainer}>
-            <h1 className={styles.welcomeTitle}>Welcome back</h1>
-            <p className={styles.welcomeSubtitle}>Sign in to your account to continue</p>
+            <h1 className={styles.welcomeTitle}>Create your account</h1>
+            <p className={styles.welcomeSubtitle}>Join Upgrade Profile to accelerate your career growth</p>
             
-            {error && (
-              <div className={styles.errorMessage}>
-                {error}
-                {showResendButton && (
-                  <button
-                    onClick={handleResendConfirmation}
-                    disabled={isResendingEmail}
-                    className={styles.resendButton}
-                  >
-                    {isResendingEmail ? 'Sending...' : 'Resend confirmation email'}
-                  </button>
-                )}
-              </div>
-            )}
-
-            {successMessage && (
-              <div className={styles.successMessage}>
-                {successMessage}
-              </div>
-            )}
+            {error && <div className={styles.errorMessage}>{error}</div>}
             
             <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.inputGroup}>
+                <input
+                  type="text"
+                  name="fullName"
+                  placeholder="Full name"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  required
+                  className={styles.input}
+                />
+              </div>
+              
               <div className={styles.inputGroup}>
                 <input
                   type="email"
@@ -154,20 +130,30 @@ export default function SignIn() {
                 />
               </div>
               
-              <div className={styles.rememberForgot}>
-                <label className={styles.rememberMeLabel}>
+              <div className={styles.inputGroup}>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  className={styles.input}
+                />
+              </div>
+              
+              <div className={styles.termsContainer}>
+                <label className={styles.termsLabel}>
                   <input
                     type="checkbox"
-                    name="rememberMe"
-                    checked={formData.rememberMe}
+                    name="agreeToTerms"
+                    checked={formData.agreeToTerms}
                     onChange={handleChange}
+                    required
                     className={styles.checkbox}
                   />
-                  Remember me
+                  I agree to the <Link href="/terms" className={styles.link}>Terms of Service</Link> and <Link href="/privacy" className={styles.link}>Privacy Policy</Link>
                 </label>
-                <Link href="/auth/forgot-password" className={styles.forgotLink}>
-                  Forgot password?
-                </Link>
               </div>
               
               <button
@@ -175,18 +161,18 @@ export default function SignIn() {
                 className={styles.primaryButton}
                 disabled={isLoading}
               >
-                {isLoading ? 'Signing in...' : 'Sign in'}
+                {isLoading ? 'Creating account...' : 'Create account'}
               </button>
             </form>
             
             <div className={styles.divider}>
-              <span>Or continue with</span>
+              <span>Or sign up with</span>
             </div>
             
             <div className={styles.oauthButtons}>
               <button
                 type="button"
-                onClick={() => handleOAuthSignIn('google')}
+                onClick={() => handleOAuthSignUp('google')}
                 className={styles.oauthButton}
                 disabled={isLoading}
               >
@@ -197,7 +183,7 @@ export default function SignIn() {
               </button>
               <button
                 type="button"
-                onClick={() => handleOAuthSignIn('facebook')}
+                onClick={() => handleOAuthSignUp('facebook')}
                 className={styles.oauthButton}
                 disabled={isLoading}
               >
@@ -208,8 +194,8 @@ export default function SignIn() {
               </button>
             </div>
             
-            <div className={styles.signupPrompt}>
-              Don&apos;t have an account? <Link href="/auth/signup" className={styles.signupLink}>Sign up</Link>
+            <div className={styles.signinPrompt}>
+              Already have an account? <Link href="/auth/signin" className={styles.signinLink}>Sign in</Link>
             </div>
           </div>
         </div>

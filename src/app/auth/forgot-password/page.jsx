@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../auth.module.css';
 
-export default function ForgotPassword() {
+export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -19,8 +19,7 @@ export default function ForgotPassword() {
     setSuccess(false);
 
     try {
-      // Here you would typically call your API to send a password reset email
-      // For now, we'll just simulate a successful response
+      // Simulate API call to send password reset instructions
       await new Promise(resolve => setTimeout(resolve, 1000));
       setSuccess(true);
     } catch (err) {
@@ -40,8 +39,6 @@ export default function ForgotPassword() {
           </p>
         </div>
         <div className={styles.rightPanel}>
-          
-          
           <div className={styles.formContainer}>
             <h1 className={styles.welcomeTitle}>Forgot Password</h1>
             <p className={styles.welcomeSubtitle}>Enter your email to reset your password</p>
@@ -82,4 +79,4 @@ export default function ForgotPassword() {
       </div>
     </div>
   );
-} 
+}
