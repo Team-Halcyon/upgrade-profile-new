@@ -34,7 +34,7 @@ const ResumeBuilder = () => {
               <div className={styles.featureIcon}>📄</div>
               <div className={styles.featureContent}>
                 <div className={styles.featureLabel}>Resume</div>
-                <div className={styles.featureValue}>12 Templates</div>
+                <div className={styles.featureValue}>50+ Templates</div>
               </div>
             </div>
             

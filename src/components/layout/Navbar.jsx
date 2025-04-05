@@ -14,7 +14,7 @@ const Navbar = () => {
               </svg>
             </div>
             <div className={styles.logoText}>
-              <span className={styles.logoTextBlack}>Upgrade</span>
+              <span className={styles.logoTextBlue}>Upgrade</span>
               <span className={styles.logoTextGradient}>Profile</span>
             </div>
           </div>
