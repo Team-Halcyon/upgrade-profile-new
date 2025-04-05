@@ -1,0 +1,140 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.navbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #4278fb;
+}
+
+.logoText {
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.logoTextBlue {
+  color: #130A39;
+}
+
+.logoTextGradient {
+  background: linear-gradient(90deg, #4278fb, #5ca8ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+}
+
+.navLink {
+  color: #666;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.navLink:hover {
+  color: #4278fb;
+}
+
+.navLink.active {
+  color: #4278fb;
+}
+
+.navLink.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #4278fb;
+}
+
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
+.signInButton {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Add this to center items horizontally */
+  gap: 0.5rem;
+  color: #4278fb;
+  border: 1px solid #4278fb;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.emailIcon {
+  display: inline-flex; /* Change to inline-flex */
+  align-self: center;
+  margin-right: 0.25rem; /* Add slight margin for spacing */
+}
+
+.signUpButton {
+  background-color: #4278fb;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+@media (max-width: 1024px) {
+  .navLinks {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navLinks {
+    display: none;
+  }
+}

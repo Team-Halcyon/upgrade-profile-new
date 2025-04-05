@@ -1,0 +1,134 @@
+.footer {
+    background-color: #130A39;
+    color: white;
+    padding: 3rem 2rem;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .topRow {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 48px;
+    margin-bottom: 3rem;
+  }
+  
+  .logoSection {
+    max-width: 300px;
+  }
+  
+  .logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .logoIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background-color: #4169e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .logoText {
+    display: flex;
+    gap: 4px;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  
+  .upgradePart {
+    color: white;
+  }
+  
+  .profilePart {
+    color: #4169e1;
+  }
+  
+  .tagline {
+    color: #a0aec0;
+    line-height: 1.6;
+    font-size: 0.9rem;
+  }
+  
+  .linksSection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  
+  .columnTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: white;
+  }
+  
+  .linksList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .linksList li {
+    margin-bottom: 12px;
+  }
+  
+  .linksList a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+  
+  .linksList a:hover {
+    color: white;
+  }
+  
+  .bottomRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid #2d2d4a;
+  }
+  
+  .languageSelector {
+    display: flex;
+  }
+  
+  .languageButton {
+    background-color: transparent;
+    border: 1px solid #2d2d4a;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  
+  .copyright {
+    color: #a0aec0;
+    font-size: 0.85rem;
+  }
+  
+  .socialLinks {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .socialIcon {
+    color: #a0aec0;
+    transition: color 0.2s ease;
+  }
+  
+  .socialIcon:hover {
+    color: white;
+  }
