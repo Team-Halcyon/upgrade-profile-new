@@ -9,11 +9,14 @@ export default function Footer() {
           <div className={styles.logoSection}>
             <div className={styles.logoContainer}>
               <div className={styles.logoIcon}>
-                <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2L4 7V17L12 22L20 17V7L12 2Z" />
-                  <path d="M12 6L12 18" stroke="white" strokeWidth="2" />
-                  <path d="M6 10L18 10" stroke="white" strokeWidth="2" />
-                </svg>
+                
+              <img 
+                    src="../images/up-logo.png" 
+                    alt="Upgrade Profile Logo" 
+                    width="30" 
+                    height="30" 
+                  />
+
               </div>
               <div className={styles.logoText}>
                 <span className={styles.upgradePart}>Upgrade</span>

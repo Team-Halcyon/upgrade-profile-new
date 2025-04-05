@@ -16,7 +16,7 @@ const Features = () => {
       features: [
         {
           icon: <FileText />,
-          title: 'AI-Powered Resume Generation',
+          title: 'Resume Generation',
           description: 'Create professional, ATS-optimized resumes with our AI templates tailored to your target roles.',
         },
         {

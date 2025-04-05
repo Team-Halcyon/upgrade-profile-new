@@ -1,0 +1,275 @@
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  
+  .contentWrapper {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    min-height: 600px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .leftPanel {
+    flex: 1;
+    background: linear-gradient(135deg, #4b9bff 0%, #4b6eff 100%);
+    color: white;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .rightPanel {
+    flex: 1;
+    background-color: white;
+    padding: 2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+  }
+  
+  .dots {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+  
+  .dot {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .dot:first-child {
+    background-color: white;
+  }
+  
+  .upgradeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #4b6eff;
+    font-weight: 500;
+  }
+  
+  .upgradeIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: #4b6eff;
+    color: white;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+  
+  .formContainer {
+    max-width: 400px;
+    margin: auto;
+    width: 100%;
+  }
+  
+  .welcomeTitle {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .welcomeSubtitle {
+    color: #666;
+    margin-bottom: 2rem;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .inputGroup {
+    width: 100%;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: #4b6eff;
+  }
+  
+  .rememberForgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .rememberMeLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+  
+  .forgotLink, .signupLink, .signinLink, .link {
+    color: #4b6eff;
+    text-decoration: none;
+  }
+  
+  .forgotLink:hover, .signupLink:hover, .signinLink:hover, .link:hover {
+    text-decoration: underline;
+  }
+  
+  .primaryButton {
+    background-color: #4b6eff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .primaryButton:hover {
+    background-color: #3a5aef;
+  }
+  
+  .primaryButton:disabled {
+    background-color: #a0afff;
+    cursor: not-allowed;
+  }
+  
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #666;
+    margin: 1.5rem 0;
+  }
+  
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .divider span {
+    padding: 0 10px;
+  }
+  
+  .oauthButtons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .oauthButton {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .oauthButton:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .oauthIcon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+  
+  .signupPrompt, .signinPrompt {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .termsContainer {
+    margin-bottom: 1rem;
+  }
+  
+  .termsLabel {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    font-size: 0.9rem;
+  }
+  
+  .errorMessage {
+    background-color: #ffe0e0;
+    color: #d32f2f;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .contentWrapper {
+      flex-direction: column;
+      box-shadow: none;
+    }
+    
+    .leftPanel {
+      padding: 2rem;
+    }
+    
+    .rightPanel {
+      padding: 1.5rem;
+    }
+    
+    .formContainer {
+      max-width: 100%;
+    }
+  }

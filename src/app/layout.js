@@ -4,8 +4,11 @@ import Footer from '@/components/layout/Footer';
 import './globals.css';
 
 export const metadata = {
-  title: 'Upgrade Profile - Unlock Your Career Potential',
+  title: 'Upgrade Profile',
   description: 'AI-powered tools for career growth, resume building, and job matching',
+  icons: {
+    icon: '/logo.svg', 
+  },
 };
 
 export default function RootLayout({ children }) {

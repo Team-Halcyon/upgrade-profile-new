@@ -9,9 +9,14 @@ const Navbar = () => {
         <div className={styles.leftSection}>
           <div className={styles.logoContainer}>
             <div className={styles.logoIcon}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24" height="24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-              </svg>
+          
+                <img 
+                    src="../images/up-logo.png" 
+                    alt="Upgrade Profile Logo" 
+                    width="30" 
+                    height="30" 
+                  />
+
             </div>
             <div className={styles.logoText}>
               <span className={styles.logoTextBlue}>Upgrade</span>
