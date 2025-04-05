@@ -15,15 +15,39 @@ export async function signIn({ email, password, provider }) {
       return { success: true, data };
     }
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data: { user }, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    if (error) throw error;
-    return { success: true, data };
+    if (error) {
+      throw error;
+    }
+
+    if (!user.email_confirmed_at) {
+      // Send a new confirmation email
+      await supabase.auth.resend({
+        type: 'signup',
+        email,
+      });
+      
+      return {
+        success: false,
+        message: 'Please confirm your email address. A new confirmation email has been sent.',
+        isEmailUnconfirmed: true,
+      };
+    }
+
+    return { success: true, data: { user } };
   } catch (error) {
     console.error('Sign in error:', error.message);
+    if (error.message.includes('Email not confirmed')) {
+      return {
+        success: false,
+        message: 'Please confirm your email address before signing in.',
+        isEmailUnconfirmed: true,
+      };
+    }
     return {
       success: false,
       message: error.message || 'Failed to sign in',
@@ -45,11 +69,18 @@ export async function signUp({ email, password, fullName }) {
         data: {
           full_name: fullName,
         },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
 
     if (error) throw error;
-    return { success: true, data };
+
+    return {
+      success: true,
+      message: 'Please check your email for a confirmation link.',
+      requiresEmailConfirmation: true,
+      data,
+    };
   } catch (error) {
     console.error('Sign up error:', error.message);
     return {
@@ -170,6 +201,28 @@ export async function updatePassword(newPassword) {
     return {
       success: false,
       message: error.message || 'Failed to update password',
+    };
+  }
+}
+
+export async function resendConfirmationEmail(email) {
+  try {
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+    });
+
+    if (error) throw error;
+
+    return {
+      success: true,
+      message: 'Confirmation email has been resent.',
+    };
+  } catch (error) {
+    console.error('Resend confirmation error:', error.message);
+    return {
+      success: false,
+      message: error.message || 'Failed to resend confirmation email',
     };
   }
 }

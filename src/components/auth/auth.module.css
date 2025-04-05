@@ -257,6 +257,38 @@
     padding: 0.75rem;
     border-radius: 6px;
     margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .successMessage {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+  }
+  
+  .resendButton {
+    background: none;
+    border: none;
+    color: #4278fb;
+    font-size: 0.875rem;
+    padding: 0.25rem 0;
+    cursor: pointer;
+    text-decoration: underline;
+    align-self: flex-start;
+  }
+  
+  .resendButton:hover {
+    color: #2a5bd7;
+  }
+  
+  .resendButton:disabled {
+    color: #999;
+    cursor: not-allowed;
+    text-decoration: none;
   }
   
   @media (max-width: 768px) {

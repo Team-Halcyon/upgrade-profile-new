@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import styles from './SubHero.module.css';
 import Button from '../common/Button';
 import { ArrowRight } from 'lucide-react';
@@ -58,7 +59,14 @@ const SubHero = () => {
       
       <div className={styles.imageSide}>
         <div className={styles.placeholderImage}>
-          <img src="/api/placeholder/400/320" alt="Career Dashboard" />
+          <Image
+            src="/images/sub.png"
+            alt="Career Dashboard Preview"
+            width={500}
+            height={400}
+            priority
+            quality={100}
+          />
         </div>
       </div>
     </section>
