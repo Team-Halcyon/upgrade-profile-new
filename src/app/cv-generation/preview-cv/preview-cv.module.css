@@ -1,0 +1,339 @@
+.container {
+    max-width: 1200px;
+    margin: 6em auto;
+    padding: 2rem 1rem;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .headerLeft {
+    flex: 1;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #130A39;
+    margin-bottom: 0.5rem;
+  }
+  
+  .subtitle {
+    color: #666;
+    font-size: 1.1rem;
+  }
+  
+  .headerActions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  
+  .actionButton,
+  .editButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .actionButton {
+    background-color: white;
+    border: 1px solid #e0e0f0;
+    color: #555;
+  }
+  
+  .actionButton:hover {
+    background-color: #f8f9ff;
+    border-color: #4f6af6;
+    color: #4f6af6;
+  }
+  
+  .editButton {
+    background-color: #4f6af6;
+    color: white;
+    border: none;
+    text-decoration: none;
+  }
+  
+  .editButton:hover {
+    background-color: #3a54d6;
+  }
+  
+  .previewContainer {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  
+  .previewDocument {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  .previewImage {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .previewSidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .scoreCard,
+  .optimizationCard,
+  .nextStepsCard {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+  }
+  
+  .scoreHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .scoreTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1a1a2e;
+  }
+  
+  .scoreValue {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #4f6af6;
+  }
+  
+  .scoreMax {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #888;
+  }
+  
+  .scoreProgress {
+    height: 8px;
+    background-color: #e0e0f0;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  
+  .progressBar {
+    height: 100%;
+    background-color: #4f6af6;
+    border-radius: 4px;
+  }
+  
+  .scoreDescription {
+    margin: 0;
+    color: #555;
+  }
+  
+  .optimizationTitle,
+  .nextStepsTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    color: #1a1a2e;
+  }
+  
+  .optimizationItem {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .optimizationItem:last-child {
+    margin-bottom: 0;
+  }
+  
+  .checkIcon {
+    color: #4f6af6;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+  
+  .itemTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    color: #1a1a2e;
+  }
+  
+  .itemDescription {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  .nextStepsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nextStepItem {
+    margin-bottom: 0.75rem;
+  }
+  
+  .nextStepItem:last-child {
+    margin-bottom: 0;
+  }
+  
+  .nextStepLink {
+    display: block;
+    padding: 0.75rem 1rem;
+    background-color: #f8f9ff;
+    border-radius: 8px;
+    color: #4f6af6;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .nextStepLink:hover {
+    background-color: rgba(79, 106, 246, 0.1);
+  }
+  
+  .shareSection {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .shareTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    color: #1a1a2e;
+  }
+  
+  .shareOptions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .shareButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    color: white;
+    transition: all 0.2s ease;
+  }
+  
+  .emailShare {
+    background-color: #ea4335;
+  }
+  
+  .emailShare:hover {
+    background-color: #d33426;
+  }
+  
+  .linkedinShare {
+    background-color: #0077b5;
+  }
+  
+  .linkedinShare:hover {
+    background-color: #005e93;
+  }
+  
+  .twitterShare {
+    background-color: #1da1f2;
+  }
+  
+  .twitterShare:hover {
+    background-color: #0c85d0;
+  }
+  
+  .actions {
+    display: flex;
+  }
+  
+  .backButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: transparent;
+    color: #666;
+    border: 1px solid #e0e0f0;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .backButton:hover {
+    background-color: #f8f9ff;
+  }
+  
+  @media (max-width: 1024px) {
+    .previewContainer {
+      grid-template-columns: 1fr;
+    }
+  
+    .previewSidebar {
+      order: -1;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .headerActions {
+      width: 100%;
+    }
+  
+    .actionButton,
+    .editButton {
+      flex: 1;
+      justify-content: center;
+    }
+  
+    .shareOptions {
+      justify-content: space-between;
+    }
+  
+    .shareButton {
+      flex: 1;
+      justify-content: center;
+    }
+  }
+  
+  

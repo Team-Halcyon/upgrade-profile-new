@@ -1,0 +1,192 @@
+.container {
+    max-width: 1200px;
+    margin: 6em auto;
+    padding: 2rem 1rem;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #130A39;
+    margin-bottom: 1rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .templateCarousel {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  
+  .carouselButton {
+    background-color: white;
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+  }
+  
+  .carouselButton:hover {
+    background-color: #f8f9ff;
+    transform: scale(1.05);
+  }
+  
+  .templatesContainer {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding: 1rem 0.5rem;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .templatesContainer::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .templateCard {
+    flex: 0 0 auto;
+    width: 300px;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .templateCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(79, 106, 246, 0.15);
+  }
+  
+  .templateImageContainer {
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .templateImage {
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .templateCard:hover .templateImage {
+    transform: scale(1.03);
+  }
+  
+  .templateName {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 1rem 1rem 0.5rem;
+    color: #1a1a2e;
+  }
+  
+  .templateDescription {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0 1rem 1rem;
+    flex-grow: 1;
+  }
+  
+  .selectButton {
+    background-color: #4f6af6;
+    color: white;
+    text-align: center;
+    padding: 0.75rem;
+    margin: 0 1rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .selectButton:hover {
+    background-color: #3a54d6;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .paginationDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ddd;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .activeDot {
+    background-color: #4f6af6;
+    transform: scale(1.2);
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .backButton {
+    background-color: transparent;
+    color: #4f6af6;
+    border: 1px solid #4f6af6;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .backButton:hover {
+    background-color: rgba(79, 106, 246, 0.05);
+  }
+  
+  @media (max-width: 768px) {
+    .templateCarousel {
+      flex-direction: column;
+    }
+  
+    .carouselButton {
+      display: none;
+    }
+  
+    .templatesContainer {
+      width: 100%;
+      padding: 0;
+    }
+  
+    .templateCard {
+      width: 100%;
+    }
+  }
+  
+  
