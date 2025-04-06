@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  
+.viewButton,
+    .applyButton {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-width: 200px;
+    }
+    
+    .viewButton {
+        background-color: #4278fb;
+        color: white;
+    }
+    
+    .viewButton:hover {
+        background-color: #3563d8;
+    }
+    
+    .applyButton {
+        background-color: #4278fb;
+        color: white;
+    }
+    
+    .applyButton:hover {
+        background-color: #3563d8;
+    }
+    
+    @media (max-width: 576px) {
+        .container {
+            flex-direction: column;
+        }
+    
+        .viewButton,
+        .applyButton {
+            width: 100%;
+        }
+    }
+  
+  

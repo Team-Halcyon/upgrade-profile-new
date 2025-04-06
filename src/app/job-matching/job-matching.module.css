@@ -1,0 +1,54 @@
+.container {
+    max-width: 1200px;
+    margin: 6em auto;
+    padding: 2rem 1rem;
+  }
+  
+  .header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #130A39;
+    margin-bottom: 0.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .actionContainer {
+    margin-bottom: 2rem;
+  }
+  
+  .content {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .filtersContainer {
+    flex: 0 0 300px;
+  }
+  
+  .jobsContainer {
+    flex: 1;
+  }
+  
+  @media (max-width: 768px) {
+    .content {
+      flex-direction: column;
+    }
+  
+    .filtersContainer {
+      flex: 0 0 auto;
+      width: 100%;
+    }
+  }
+  
+  
