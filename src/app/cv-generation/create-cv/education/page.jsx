@@ -1,28 +1,12 @@
-"use client"
-
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
 import styles from "../create-cv.module.css"
 import educationStyles from "./education.module.css"
 import { User, FileText, Briefcase, GraduationCap, Award, Languages, ArrowRight ,ArrowLeft} from "lucide-react"
 
 export default function EducationPage() {
-  const searchParams = useSearchParams();
-  const source = searchParams.get('source');
-  const isFromUpload = source === 'upload';
-
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>
-          {isFromUpload ? "Review Your CV Information" : "Create Your CV"}
-        </h1>
-        <p className={styles.subtitle}>
-          {isFromUpload 
-            ? "We've extracted information from your uploaded CV. Please review and make any necessary changes."
-            : "Let's build your professional CV step by step with our AI-powered assistant"}
-        </p>
-      </div>
+      
       
       <div className={styles.progressContainer}>
         <div className={styles.progressBar}>
