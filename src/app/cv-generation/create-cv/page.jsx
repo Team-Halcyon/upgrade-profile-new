@@ -117,7 +117,6 @@ export default function Page() {
               <Languages size={18} />
             </div>
             <span>Additional</span>
-          </div>
         </div>
       </div>
 
@@ -210,6 +209,7 @@ export default function Page() {
                 />
               </div>
 
+              
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>Website/Portfolio</label>
                 <input
@@ -256,6 +256,7 @@ export default function Page() {
           </form>
         </div>
         </div>
+    </div>
    
   )
 }
