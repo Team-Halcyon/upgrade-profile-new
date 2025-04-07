@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../auth.module.css';
-import { signIn, resendConfirmationEmail } from '@/lib/auth';
+import { signIn } from '@/lib/auth'; // Assuming signIn checks credentials
 
 export default function SignInPage() {
   const router = useRouter();
@@ -15,9 +15,6 @@ export default function SignInPage() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [isResendingEmail, setIsResendingEmail] = useState(false);
-  const [showResendButton, setShowResendButton] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -27,41 +24,20 @@ export default function SignInPage() {
     });
   };
 
-  const handleResendConfirmation = async () => {
-    setIsResendingEmail(true);
-    setError('');
-    setSuccessMessage('');
-
-    try {
-      const result = await resendConfirmationEmail(formData.email);
-      if (result.success) {
-        setSuccessMessage(result.message);
-      } else {
-        setError(result.message);
-      }
-    } catch (err) {
-      setError('Failed to resend confirmation email. Please try again.');
-    } finally {
-      setIsResendingEmail(false);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-    setSuccessMessage('');
-    setShowResendButton(false);
 
     try {
+      // Call the signIn API to validate credentials
       const result = await signIn(formData);
       if (result.success) {
+        // If credentials are correct, redirect to the dashboard
         router.push('/dashboard');
       } else {
-        setError(result.message);
-        if (result.isEmailUnconfirmed) {
-          setShowResendButton(true);
-        }
+        // If there's an error (invalid credentials), display the error message
+        setError(result.message || 'Invalid credentials. Please try again.');
       }
     } catch (err) {
       setError('An error occurred. Please try again later.');
@@ -74,7 +50,7 @@ export default function SignInPage() {
   const handleOAuthSignIn = async (provider) => {
     setIsLoading(true);
     try {
-      // Implementation for OAuth sign-in
+      // Assuming `signIn` can handle OAuth if needed
       await signIn({ provider });
       router.push('/dashboard');
     } catch (err) {
@@ -104,26 +80,7 @@ export default function SignInPage() {
             <h1 className={styles.welcomeTitle}>Welcome back</h1>
             <p className={styles.welcomeSubtitle}>Sign in to your account to continue</p>
             
-            {error && (
-              <div className={styles.errorMessage}>
-                {error}
-                {showResendButton && (
-                  <button
-                    onClick={handleResendConfirmation}
-                    disabled={isResendingEmail}
-                    className={styles.resendButton}
-                  >
-                    {isResendingEmail ? 'Sending...' : 'Resend confirmation email'}
-                  </button>
-                )}
-              </div>
-            )}
-
-            {successMessage && (
-              <div className={styles.successMessage}>
-                {successMessage}
-              </div>
-            )}
+            {error && <div className={styles.errorMessage}>{error}</div>}
             
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.inputGroup}>
