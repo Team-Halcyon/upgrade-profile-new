@@ -17,7 +17,7 @@ export const storeUserInfo = async (full_name, email, location, website, job_tit
 
         // Insert into user_info table
         const [result] = await pool.query(
-            "INSERT INTO user_info (id, full_name,email, location, website, job_title, phone_num, linked_in, github) VALUES (?, ?, ?, ?, ?, ?, ?,?, ?)", 
+            "INSERT INTO user_info (user_id, full_name,email, location, website, job_title, phone_num, linked_in, github) VALUES (?, ?, ?, ?, ?, ?, ?,?, ?)", 
             [id, full_name,email, location, website, job_title, phone_num, linked_in, github]
         );
         //console.log("Insert Result:", result);  // Log the result for debugging
