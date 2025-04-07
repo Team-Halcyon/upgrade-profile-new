@@ -1,0 +1,504 @@
+.container {
+  max-width: 1200px;
+  margin: 6em auto;
+  padding: 3rem 1.5rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: 2.3rem; /* Reduced from 2.5rem */
+  font-weight: 700;
+  /* background: linear-gradient(45deg, #4278fb, #3563d8); */
+  -webkit-background-clip: text;
+  background-clip: text;
+  /* color: transparent; */
+  color: #130A39;
+  margin-bottom: 1rem;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 700px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(-15px);
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.tab {
+  padding: 0.85rem 1.5rem;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  background-color: rgba(66, 120, 251, 0.05);
+  color: #4278fb;
+}
+
+.activeTab {
+  background-color: rgba(66, 120, 251, 0.1);
+  color: #4278fb;
+  font-weight: 600;
+}
+
+.findMentorContent,
+.sessionsContent,
+.becomeContent {
+  opacity: 0;
+  transform: translateY(20px);
+  margin-bottom: 3rem;
+}
+
+.searchFilters {
+  margin-bottom: 2.5rem;
+}
+
+.searchContainer {
+  margin-bottom: 1.5rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.checkboxFilter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkboxFilter input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #4278fb;
+}
+
+.checkboxFilter label {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.selectFilter {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.filterLabel {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.skillSelect,
+.availabilitySelect {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  min-width: 150px;
+}
+
+.mentorsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.mentorCard {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mentorCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.mentorImageContainer {
+  position: relative;
+  height: 200px;
+}
+
+.mentorImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.newBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(45deg, #ff9800, #ff5722);
+  color: white;
+  padding: 0.35rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.mentorInfo {
+  padding: 1.5rem;
+}
+
+.mentorName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+}
+
+.mentorTitle {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0 0 1rem 0;
+}
+
+.mentorSkills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.skillTag {
+  background-color: rgba(66, 120, 251, 0.1);
+  color: #4278fb;
+  padding: 0.3rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.75rem; /* Reduced from 0.8rem */
+}
+
+.mentorAvailability {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 1.5rem;
+}
+
+.connectButton {
+  width: 100%;
+  padding: 0.85rem 0;
+  background-color: #4278fb;
+  color: white;
+  border: none;
+  font-size: 0.95rem; /* Reduced from 1rem */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.connectButton:hover {
+  background-color: #3563d8;
+}
+
+.noResults {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+}
+
+.noResultsIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.noResultsTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.noResultsText {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.emptyTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.emptyText {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+.findMentorButton {
+  padding: 0.85rem 2rem;
+  background-color: #4278fb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem; /* Reduced from 1.1rem */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.findMentorButton:hover {
+  background-color: #3563d8;
+}
+
+.becomeCard {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.becomeTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.becomeText {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+
+.benefitsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  text-align: left;
+}
+
+.benefitItem {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.benefitIcon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.benefitContent {
+  flex: 1;
+}
+
+.benefitTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+}
+
+.benefitText {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.applyButton {
+  padding: 0.85rem 2.5rem;
+  background-color: #4278fb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem; /* Reduced from 1.1rem */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.applyButton:hover {
+  background-color: #3563d8;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(66, 120, 251, 0.2);
+}
+
+.testimonials {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.testimonialsTitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.testimonialsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.testimonialCard {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.testimonialContent {
+  margin-bottom: 1.5rem;
+}
+
+.testimonialText {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.7;
+  font-style: italic;
+}
+
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.testimonialAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #eee;
+  background-image: linear-gradient(45deg, #f3f3f3, #ddd);
+}
+
+.testimonialInfo {
+  flex: 1;
+}
+
+.testimonialName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.testimonialRole {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* Animations */
+.animateTitle {
+  animation: fadeDown 0.8s forwards;
+}
+
+.animateSubtitle {
+  animation: fadeDown 0.8s 0.2s forwards;
+}
+
+.animateContent {
+  animation: fadeUp 0.8s 0.3s forwards;
+}
+
+.animateTestimonials {
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+
+@keyframes fadeDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .selectFilter {
+    width: 100%;
+  }
+
+  .skillSelect,
+  .availabilitySelect {
+    flex: 1;
+  }
+
+  .mentorsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonialsList {
+    grid-template-columns: 1fr;
+  }
+
+  .benefitsList {
+    grid-template-columns: 1fr;
+  }
+}
+
