@@ -197,7 +197,6 @@ export default function Page() {
                 />
               </div>
 
-
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>LinkedIn</label>
                 <input
