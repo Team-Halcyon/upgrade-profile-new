@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../auth.module.css';
-import { signUp } from '@/lib/auth';
+import { signUp } from '@/lib/auth'; // Ensure this is the updated signUp function to handle the API call.
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function SignUpPage() {
     email: '',
     password: '',
     confirmPassword: '',
-    agreeToTerms: false
+    agreeToTerms: false,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -22,7 +22,7 @@ export default function SignUpPage() {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
@@ -31,6 +31,7 @@ export default function SignUpPage() {
     setIsLoading(true);
     setError('');
 
+    // Validation checks
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       setIsLoading(false);
@@ -44,7 +45,9 @@ export default function SignUpPage() {
     }
 
     try {
+      // Send the form data to your backend to create a user
       const result = await signUp(formData);
+
       if (result.success) {
         router.push('/dashboard');
       } else {
@@ -61,7 +64,7 @@ export default function SignUpPage() {
   const handleOAuthSignUp = async (provider) => {
     setIsLoading(true);
     try {
-      // Implementation for OAuth sign-up
+      // Implementation for OAuth sign-up (sending request to backend for OAuth)
       await signUp({ provider });
       router.push('/dashboard');
     } catch (err) {
