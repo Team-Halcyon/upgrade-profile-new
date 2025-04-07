@@ -1,10 +1,52 @@
 "use client"
 
+import { useState, useRef } from "react"
 import Link from "next/link"
 import { Upload, FileText, Linkedin, ArrowRight } from "lucide-react"
+import axios from "axios"  // Axios for making HTTP requests
 import styles from "./upload-cv.module.css"
 
 export default function UploadPage() {
+  const fileInputRef = useRef(null)  // Create a reference to the file input
+  const [uploading, setUploading] = useState(false)  // To show loading state while uploading
+
+
+  // Trigger the file input click when the user clicks on the upload area
+  const handleUploadAreaClick = () => {
+    fileInputRef.current.click()  // Trigger the click on the hidden file input
+  }
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      // Get the email from the logged-in user (You can fetch this from your app's state or context)
+      const userEmail = "chathu2@example.com"  // Replace this with actual user email from your app state
+  
+      // Prepare FormData for file upload
+      const formData = new FormData()
+      formData.append("cv", file) // Append the file
+      formData.append("email", userEmail)  // Append the email
+  
+      // Upload the file to the backend
+      setUploading(true)
+      try {
+        const response = await axios.post("/api/user/uploadCV", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // Set the appropriate header for file upload
+          },
+        })
+        console.log("Upload success:", response.data)
+        alert("File uploaded successfully")
+      } catch (error) {
+        console.error("Upload error:", error)
+        alert("File upload failed, please try again")
+      } finally {
+        setUploading(false)
+      }
+    }
+  }
+  
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -15,7 +57,10 @@ export default function UploadPage() {
       </div>
 
       <div className={styles.uploadContainer}>
-        <div className={styles.uploadArea}>
+        <div
+          className={styles.uploadArea}
+          onClick={handleUploadAreaClick}  // Trigger the file input click on area click
+        >
           <div className={styles.uploadIcon}>
             <Upload size={48} color="#4F6AF6" />
           </div>
@@ -62,6 +107,15 @@ export default function UploadPage() {
           <ArrowRight size={18} />
         </Link>
       </div>
+      
+      {/* Hidden file input for file selection */}
+      <input
+        type="file"
+        ref={fileInputRef}  // Set the reference to the input
+        style={{ display: "none" }}  // Hide the input
+        accept=".pdf,.docx,.txt"  // Accept only PDF, DOCX, and TXT files
+        onChange={handleFileChange}  // Handle file selection
+      />
     </div>
   )
 }

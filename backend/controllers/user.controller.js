@@ -1,5 +1,6 @@
 import { createUser, getUserByEmail,updateUserPassword } from '../models/user.model.js';
 import { hashPassword,comparePassword } from '../utils/hash.js';
+import jwt from 'jsonwebtoken';
 
 export const signUp = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -19,8 +20,6 @@ export const signUp = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Server error' });
   }
 };
-
-
 export const signIn = async (req, res) => {
   const { email, password } = req.body;
 
@@ -35,8 +34,10 @@ export const signIn = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
 
-    // Ideally you'd issue a JWT here
-    return res.status(200).json({ success: true, message: 'Login successful', userId: user.id });
+    // Create JWT token
+    const token = jwt.sign({ userId: user.id }, 'your-secret-key', { expiresIn: '1h' });
+
+    return res.status(200).json({ success: true, message: 'Login successful', token });
   } catch (err) {
     console.error('Signin error:', err);
     return res.status(500).json({ success: false, message: 'Server error' });
