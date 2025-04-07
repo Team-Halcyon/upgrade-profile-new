@@ -15,3 +15,9 @@ export const getUserByEmail = async (email) => {
   );
   return rows[0]; // Return single user or undefined
 };
+
+
+export const updateUserPassword = async (email, newHashedPassword) => {
+  const [result] = await pool.query('UPDATE users SET password_hash = ? WHERE email = ?', [newHashedPassword, email]);
+  return result.affectedRows > 0;
+};
