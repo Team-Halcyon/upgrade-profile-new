@@ -128,7 +128,7 @@ export default function Page() {
             : "Let's start with your basic information that will appear at the top of your CV"}
         </p>
 
-        {error && <div className={styles.error}>{error}</div>}
+          {error && <div className={styles.error}>{error}</div>}
           {successMessage && <div className={styles.success}>{successMessage}</div>}
 
           <form onSubmit={handleSubmit}>
@@ -208,7 +208,6 @@ export default function Page() {
                   placeholder="linkedin.com/in/johndoe"
                 />
               </div>
-
               
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>Website/Portfolio</label>
@@ -255,7 +254,7 @@ export default function Page() {
             </div>
           </form>
         </div>
-        </div>
+      </div>
     </div>
    
   )
