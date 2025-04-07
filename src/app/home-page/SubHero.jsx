@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from './SubHero.module.css';
 import Button from '../../components/common/Button';
 import { ArrowRight } from 'lucide-react';
@@ -26,6 +27,7 @@ const SubHero = () => {
         </p>
         
         <div className={styles.ctaButtons}>
+        <Link href="/auth/signin" >
           <Button 
             variant="primary"
             size="md"
@@ -35,7 +37,7 @@ const SubHero = () => {
           >
             Join for free
           </Button>
-          
+        </Link>
           <Button 
             variant="secondary"
             size="md"

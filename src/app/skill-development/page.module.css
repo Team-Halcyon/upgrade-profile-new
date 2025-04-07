@@ -1,0 +1,226 @@
+.container {
+  max-width: 1200px;
+  margin: 4em auto;
+  padding: 3rem 1.5rem;
+  overflow: hidden;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #130A39;
+  /* background: linear-gradient(45deg, #4278fb, #3563d8); */
+  -webkit-background-clip: text;
+  background-clip: text;
+  /* color: transparent; */
+  margin-bottom: 1rem;
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 700px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.card {
+  position: relative;
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(30px);
+  cursor: pointer;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(to bottom, #4278fb, #3563d8);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover::before {
+  width: 10px;
+}
+
+.cardIcon {
+  margin-bottom: 1.5rem;
+  color: #4278fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75px;
+  height: 75px;
+  background: rgba(66, 120, 251, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.card:hover .cardIcon {
+  transform: scale(1.1);
+  background: rgba(66, 120, 251, 0.15);
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.cardDescription {
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardTag {
+  background: rgba(66, 120, 251, 0.1);
+  color: #4278fb;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.cardButton {
+  background: transparent;
+  color: #4278fb;
+  border: 1px solid #4278fb;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cardButton:hover {
+  background: #4278fb;
+  color: white;
+}
+
+.statsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  background: linear-gradient(45deg, #4278fb, #3563d8);
+  padding: 2.8rem;
+  border-radius: 16px;
+  color: white;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statValue {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.statLabel {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Animations */
+.animateTitle {
+  animation: fadeDown 0.8s forwards;
+}
+
+.animateSubtitle {
+  animation: fadeDown 0.8s 0.2s forwards;
+}
+
+.animateCard {
+  animation: fadeUp 0.6s forwards;
+}
+
+.animateStats {
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+
+@keyframes fadeDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+  .cards {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .statsContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .statsContainer {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+

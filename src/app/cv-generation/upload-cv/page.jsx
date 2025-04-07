@@ -57,7 +57,7 @@ export default function UploadPage() {
         <Link href="/cv-generation" className={styles.backButton}>
           Back
         </Link>
-        <Link href="/cv-generation/edit-cv" className={styles.continueButton}>
+        <Link href="/cv-generation/create-cv?source=upload" className={styles.continueButton}>
           Continue
           <ArrowRight size={18} />
         </Link>

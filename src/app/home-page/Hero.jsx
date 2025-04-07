@@ -1,6 +1,7 @@
 import styles from './Hero.module.css';
 import Button from '../../components/common/Button';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Hero() {
   return (
@@ -21,9 +22,11 @@ export default function Hero() {
           </p>
           
           <div className={styles.actions}>
+            <Link href="/auth/signin" >
             <Button href="/get-started" variant="primary" arrow>
               Get Started Free
             </Button>
+            </Link>
             <Button href="/demo" variant="outline">
               Watch Demo
             </Button>
