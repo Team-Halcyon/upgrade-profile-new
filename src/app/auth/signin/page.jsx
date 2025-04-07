@@ -47,19 +47,25 @@ export default function SignInPage() {
     }
   };
 
-  const handleOAuthSignIn = async (provider) => {
-    setIsLoading(true);
-    try {
-      // Assuming `signIn` can handle OAuth if needed
-      await signIn({ provider });
-      router.push('/dashboard');
-    } catch (err) {
-      setError(`Failed to sign in with ${provider}`);
-      console.error(`${provider} sign in error:`, err);
-    } finally {
-      setIsLoading(false);
+  const handleSignIn = async (email, password) => {
+    const response = await fetch('/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+  
+    const data = await response.json();
+  
+    if (data.success) {
+      // Store the token in localStorage (or you can use cookies)
+      localStorage.setItem('authToken', data.token);
+    } else {
+      console.error('Sign-in failed:', data.message);
     }
   };
+  
 
   return (
     <div className={styles.container}>
@@ -139,7 +145,7 @@ export default function SignInPage() {
             <div className={styles.oauthButtons}>
               <button
                 type="button"
-                onClick={() => handleOAuthSignIn('google')}
+                onClick={() => handleSignIn()}
                 className={styles.oauthButton}
                 disabled={isLoading}
               >
