@@ -11,9 +11,16 @@ import {
   Languages,
   User,
 } from "lucide-react"
+// import { useSearchParams } from "next/navigation"
+// import { User, FileText, Briefcase, GraduationCap, Award, Languages, ArrowRight, ArrowLeft } from "lucide-react"
 import styles from "./create-cv.module.css"
 import { submitUserInfo } from "@/lib/userAPIs" // Importing the API function
 
+
+// export default function CreateCVPage() {
+//   const searchParams = useSearchParams();
+//   const source = searchParams.get('source');
+//   const isFromUpload = source === 'upload';
 export default function Page() {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -61,51 +68,65 @@ export default function Page() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Create Your CV</h1>
+        <h1 className={styles.title}>
+          {isFromUpload ? "Review Your CV Information" : "Create Your CV"}
+        </h1>
         <p className={styles.subtitle}>
-          Let's build your professional CV step by step with our AI-powered assistant
+          {isFromUpload 
+            ? "We've extracted information from your uploaded CV. Please review and make any necessary changes."
+            : "Let's build your professional CV step by step with our AI-powered assistant"}
         </p>
       </div>
-
-      <div className={styles.stepsContainer}>
-        <div className={styles.stepsProgress}>
-          <div className={styles.progressLine}>
-            <div className={styles.progressFilled} style={{ width: "16.6%" }}></div>
-          </div>
-
-          <div className={styles.stepsIndicators}>
-            <div className={`${styles.stepIndicator} ${styles.activeStep}`}>
-              <User size={20} />
-              <span className={styles.stepName}>Personal</span>
-            </div>
-            <div className={styles.stepIndicator}>
-              <FileText size={20} />
-              <span className={styles.stepName}>Summary</span>
-            </div>
-            <div className={styles.stepIndicator}>
-              <Briefcase size={20} />
-              <span className={styles.stepName}>Experience</span>
-            </div>
-            <div className={styles.stepIndicator}>
-              <GraduationCap size={20} />
-              <span className={styles.stepName}>Education</span>
-            </div>
-            <div className={styles.stepIndicator}>
-              <Award size={20} />
-              <span className={styles.stepName}>Skills</span>
-            </div>
-            <div className={styles.stepIndicator}>
-              <Languages size={20} />
-              <span className={styles.stepName}>Additional</span>
-            </div>
-          </div>
+      <div className={styles.progressContainer}>
+        <div className={styles.progressBar}>
+          <div className={styles.progressFill} style={{ width: "16.6%" }}></div>
         </div>
+        <div className={styles.progressSteps}>
+          <div className={`${styles.progressStep} ${styles.activeStep}`}>
+            <div className={styles.stepIcon}>
+              <User size={18} />
+            </div>
+            <span>Personal</span>
+          </div>
+          <div className={styles.progressStep}>
+            <div className={styles.stepIcon}>
+              <FileText size={18} />
+            </div>
+            <span>Summary</span>
+          </div>
+          <div className={styles.progressStep}>
+            <div className={styles.stepIcon}>
+              <Briefcase size={18} />
+            </div>
+            <span>Experience</span>
+          </div>
+          <div className={styles.progressStep}>
+            <div className={styles.stepIcon}>
+              <GraduationCap size={18} />
+            </div>
+            <span>Education</span>
+          </div>
+          <div className={styles.progressStep}>
+            <div className={styles.stepIcon}>
+              <Award size={18} />
+            </div>
+            <span>Skills</span>
+          </div>
+          <div className={styles.progressStep}>
+            <div className={styles.stepIcon}>
+              <Languages size={18} />
+            </div>
+            <span>Additional</span>
+        </div>
+      </div>
 
-        <div className={styles.formContainer}>
-          <h2 className={styles.formTitle}>Personal Information</h2>
-          <p className={styles.formDescription}>
-            Let's start with your basic information that will appear at the top of your CV
-          </p>
+      <div className={styles.formSection}>
+        <h2 className={styles.sectionTitle}>Personal Information</h2>
+        <p className={styles.sectionDescription}>
+          {isFromUpload 
+            ? "Review the personal information extracted from your uploaded CV"
+            : "Let's start with your basic information that will appear at the top of your CV"}
+        </p>
 
           {error && <div className={styles.error}>{error}</div>}
           {successMessage && <div className={styles.success}>{successMessage}</div>}
@@ -188,6 +209,7 @@ export default function Page() {
                 />
               </div>
 
+
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>Website/Portfolio</label>
                 <input
@@ -201,6 +223,7 @@ export default function Page() {
               </div>
 
               <div className={styles.formGroup}>
+
                 <label className={styles.formLabel}>GitHub</label>
                 <input
                   type="text"
@@ -235,5 +258,6 @@ export default function Page() {
         </div>
       </div>
     </div>
+   
   )
 }

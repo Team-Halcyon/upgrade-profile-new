@@ -1,0 +1,111 @@
+.additionalSections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .additionalSection {
+    background-color: #f8f9ff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid #e0e0f0;
+  }
+  
+  .sectionTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 1.5rem;
+  }
+  
+  .languagesContainer,
+  .certificationsContainer,
+  .projectsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .languageEntry,
+  .certificationEntry,
+  .projectEntry {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: grid;
+    gap: 1.5rem;
+    position: relative;
+  }
+  
+  .languageEntry {
+    grid-template-columns: 1fr 1fr auto;
+  }
+  
+  .certificationEntry {
+    grid-template-columns: 1fr 1fr 1fr auto;
+  }
+  
+  .projectEntry {
+    grid-template-columns: 1fr;
+  }
+  
+  .removeButton {
+    background-color: transparent;
+    border: none;
+    color: #ff4d4f;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    height: fit-content;
+    align-self: center;
+  }
+  
+  .removeButton:hover {
+    background-color: rgba(255, 77, 79, 0.1);
+  }
+  
+  .addButton {
+    background-color: transparent;
+    color: #4f6af6;
+    border: 1px dashed #4f6af6;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .addButton:hover {
+    background-color: rgba(79, 106, 246, 0.05);
+  }
+  
+  @media (max-width: 992px) {
+    .languageEntry {
+      grid-template-columns: 1fr 1fr;
+    }
+  
+    .certificationEntry {
+      grid-template-columns: 1fr 1fr;
+    }
+  
+    .removeButton {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .languageEntry,
+    .certificationEntry {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  

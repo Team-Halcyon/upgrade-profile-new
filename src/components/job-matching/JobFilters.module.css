@@ -1,0 +1,115 @@
+.container {
+    background-color: #f8f9ff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #1a1a2e;
+  }
+  
+  .filterSection {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 1.5rem;
+  }
+  
+  .filterSection:last-child {
+    border-bottom: none;
+    margin-bottom: 1rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .input,
+  .select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .filterButton {
+    background-color: #0066ff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+  }
+  
+  .filterButton:hover {
+    background-color: #0052cc;
+  }
+  
+  .checkboxGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .checkboxItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .checkboxItem input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #0066ff;
+  }
+  
+  .checkboxItem label {
+    font-size: 0.95rem;
+    color: #333;
+  }
+  
+  .rangeContainer {
+    width: 100%;
+  }
+  
+  .rangeInput {
+    width: 100%;
+    accent-color: #0066ff;
+  }
+  
+  .rangeLabels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+  }
+  
+  .resetButton {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    color: #495057;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .resetButton:hover {
+    background-color: #e9ecef;
+  }
+  
+  

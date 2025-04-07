@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { useSearchParams } from "next/navigation"
 import {
   Download,
   Share2,
@@ -15,6 +16,10 @@ import {
 import styles from "./preview-cv.module.css"
 
 export default function PreviewPage() {
+  const searchParams = useSearchParams();
+  const template = searchParams.get('template') || 'classic';
+  const source = searchParams.get('source') || 'create';
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -33,7 +38,7 @@ export default function PreviewPage() {
             <Share2 size={18} />
             Share
           </button>
-          <Link href="/cv-generation/editor" className={styles.editButton}>
+          <Link href="/cv-generation/create-cv" className={styles.editButton}>
             <Edit size={18} />
             Edit
           </Link>
@@ -153,9 +158,9 @@ export default function PreviewPage() {
       </div>
 
       <div className={styles.actions}>
-        <Link href="/cv-generation/editor" className={styles.backButton}>
+        <Link href={`/cv-generation/cv-templates?source=${source}`} className={styles.backButton}>
           <ArrowLeft size={18} />
-          Back to Editor
+          Back to Templates
         </Link>
       </div>
     </div>

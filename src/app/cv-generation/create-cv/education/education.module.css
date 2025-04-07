@@ -1,0 +1,79 @@
+.educationEntry {
+    border: 1px solid #e0e0f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #f8f9ff;
+  }
+  
+  .entryHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .entryTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin: 0;
+  }
+  
+  .removeButton {
+    background-color: transparent;
+    border: none;
+    color: #ff4d4f;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  
+  .removeButton:hover {
+    background-color: rgba(255, 77, 79, 0.1);
+  }
+  
+  .endDateContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .currentStudyLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+    cursor: pointer;
+  }
+  
+  .currentStudyCheckbox {
+    width: 16px;
+    height: 16px;
+    accent-color: #4f6af6;
+  }
+  
+  .addEducationButton {
+    background-color: transparent;
+    color: #4f6af6;
+    border: 1px dashed #4f6af6;
+    padding: 0.75rem;
+    border-radius: 8px;
+    width: 100%;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .addEducationButton:hover {
+    background-color: rgba(79, 106, 246, 0.05);
+  }
+  
+  

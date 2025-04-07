@@ -102,9 +102,9 @@ const Features = () => {
               </div>
               <h3 className={styles.featureTitle}>{feature.title}</h3>
               <p className={styles.featureDescription}>{feature.description}</p>
-              <a href="#" className={styles.learnMore}>
+              {/* <a href="#" className={styles.learnMore}>
                 Learn more &gt;
-              </a>
+              </a> */}
             </div>
           ))}
         </div>

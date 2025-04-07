@@ -1,0 +1,153 @@
+.skillsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .skillsSection {
+    background-color: #f8f9ff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid #e0e0f0;
+  }
+  
+  .skillsSectionTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 1rem;
+  }
+  
+  .skillsInputContainer {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .skillsInput {
+    flex: 1;
+    border: 1px solid #e0e0f0;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+  }
+  
+  .skillsInput:focus {
+    outline: none;
+    border-color: #4f6af6;
+  }
+  
+  .addSkillButton {
+    background-color: #4f6af6;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .addSkillButton:hover {
+    background-color: #3a54d6;
+  }
+  
+  .skillTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .skillTag {
+    background-color: white;
+    border: 1px solid #4f6af6;
+    color: #4f6af6;
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .removeSkillButton {
+    background: none;
+    border: none;
+    color: #4f6af6;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .removeSkillButton:hover {
+    color: #ff4d4f;
+  }
+  
+  .aiSuggestion {
+    background-color: #f0f4ff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid #4f6af6;
+  }
+  
+  .aiSuggestionHeader {
+    margin-bottom: 1rem;
+  }
+  
+  .aiSuggestionTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .aiSuggestionSubtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+  }
+  
+  .aiSuggestionTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .aiSuggestionTag {
+    background-color: white;
+    border: 1px solid #4f6af6;
+    color: #4f6af6;
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .aiSuggestionTag:hover {
+    background-color: #4f6af6;
+    color: white;
+  }
+  
+  @media (max-width: 768px) {
+    .skillsInputContainer {
+      flex-direction: column;
+    }
+  
+    .addSkillButton {
+      width: 100%;
+    }
+  }
+  
+  

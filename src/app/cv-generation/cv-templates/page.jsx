@@ -3,6 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useSearchParams } from "next/navigation"
 import styles from "./cv-templates.module.css"
 
 const templates = [
@@ -45,6 +46,17 @@ const templates = [
 ]
 
 export default function TemplatesPage() {
+  const searchParams = useSearchParams();
+  const source = searchParams.get('source') || 'create'; // Default to 'create' if not specified
+  
+  // Back button destination based on source
+  const backDestination = source === 'upload' 
+    ? '/cv-generation/create-cv' 
+    : '/cv-generation/create-cv/additional';
+  
+  // Always use "Back to Edit CV" label as per requirement
+  const backLabel = "Back to Edit CV";
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -71,7 +83,10 @@ export default function TemplatesPage() {
               </div>
               <h3 className={styles.templateName}>{template.name}</h3>
               <p className={styles.templateDescription}>{template.description}</p>
-              <Link href={`/cv-generation/editor?template=${template.id}`} className={styles.selectButton}>
+              <Link 
+                href={`/cv-generation/preview-cv?template=${template.id}&source=${source}`} 
+                className={styles.selectButton}
+              >
                 Select Template
               </Link>
             </div>
@@ -94,8 +109,8 @@ export default function TemplatesPage() {
       </div>
 
       <div className={styles.actions}>
-        <Link href="/cv-generation" className={styles.backButton}>
-          Back to Options
+        <Link href={backDestination} className={styles.backButton}>
+          {backLabel}
         </Link>
       </div>
     </div>

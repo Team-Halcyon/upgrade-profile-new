@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './ResumeBuilder.module.css';
+import Link from 'next/link';
 
 const ResumeBuilder = () => {
   return (
@@ -63,9 +64,11 @@ const ResumeBuilder = () => {
             </div>
           </div>
           
-          <button className={styles.generateButton}>
-            Generate Your AI Resume
-          </button>
+          <Link href="/cv-generation">
+            <button className={styles.generateButton}>
+              Generate Your AI Resume
+            </button>
+          </Link>
         </div>
       </div>
    

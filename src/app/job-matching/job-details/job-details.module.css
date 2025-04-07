@@ -1,0 +1,290 @@
+.container {
+    max-width: 1200px;
+    margin: 6em auto;
+    padding: 2rem 1rem;
+  }
+  
+  .header {
+    margin-bottom: 2rem;
+  }
+  
+  .backButton {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #0066ff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .backButton:hover {
+    color: #0052cc;
+    text-decoration: underline;
+  }
+  
+  .jobHeader {
+    margin-bottom: 2rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #130A39;
+    margin-bottom: 0.5rem;
+  }
+  
+  .company {
+    font-size: 1.25rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+  
+  .meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .divider {
+    color: #ccc;
+  }
+  
+  .jobType {
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  
+  .fulltime {
+    background-color: #e6f7ff;
+    color: #0066cc;
+  }
+  
+  .parttime {
+    background-color: #fff3e6;
+    color: #ff8c00;
+  }
+  
+  .internship {
+    background-color: #e6f0ff;
+    color: #3366ff;
+  }
+  
+  .content {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .mainContent {
+    flex: 1;
+  }
+  
+  .sidebar {
+    flex: 0 0 350px;
+  }
+  
+  .section {
+    margin-bottom: 2.5rem;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .sectionTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    white-space: pre-line;
+  }
+  
+  .requirementsList {
+    padding-left: 1.5rem;
+  }
+  
+  .requirementItem {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  .benefitsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .benefitItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .benefitIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: #e6f7ff;
+    color: #0066cc;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  
+  .benefitText {
+    font-size: 0.95rem;
+    color: #333;
+  }
+  
+  .matchCard,
+  .skillsCard {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .matchHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .matchTitle,
+  .skillsTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+  
+  .matchValue {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0066ff;
+  }
+  
+  .matchBar {
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  
+  .matchProgress {
+    height: 100%;
+    background-color: #0066ff;
+    border-radius: 4px;
+  }
+  
+  .matchText {
+    font-size: 0.95rem;
+    color: #555;
+    text-align: center;
+  }
+  
+  .skillsList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  
+  .skillItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .skillIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+  }
+  
+  .match {
+    background-color: #e6f7ff;
+    color: #0066cc;
+  }
+  
+  .missing {
+    background-color: #fff1f0;
+    color: #f5222d;
+  }
+  
+  .skillName {
+    font-size: 0.95rem;
+    color: #333;
+  }
+  
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .applyButton,
+  .saveButton {
+    padding: 0.85rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-align: center;
+  }
+  
+  .applyButton {
+    background-color: #0066ff;
+    color: white;
+  }
+  
+  .applyButton:hover {
+    background-color: #0052cc;
+  }
+  
+  .saveButton {
+    background-color: #f1f3f5;
+    color: #495057;
+    border: 1px solid #dee2e6;
+  }
+  
+  .saveButton:hover {
+    background-color: #e9ecef;
+  }
+  
+  @media (max-width: 992px) {
+    .content {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      flex: 0 0 auto;
+      width: 100%;
+    }
+  }
+  
+  
