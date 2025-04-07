@@ -1,14 +1,57 @@
 "use client"
 
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
-import { User, FileText, Briefcase, GraduationCap, Award, Languages, ArrowRight, ArrowLeft } from "lucide-react"
+// import { useSearchParams } from "next/navigation"
+// import { User, FileText, Briefcase, GraduationCap, Award, Languages, ArrowRight, ArrowLeft } from "lucide-react"
 import styles from "./create-cv.module.css"
 
-export default function CreateCVPage() {
-  const searchParams = useSearchParams();
-  const source = searchParams.get('source');
-  const isFromUpload = source === 'upload';
+// export default function CreateCVPage() {
+//   const searchParams = useSearchParams();
+//   const source = searchParams.get('source');
+//   const isFromUpload = source === 'upload';
+export default function Page() {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    jobTitle: '',
+    email: '',
+    phone: '',
+    location: '',
+    linkedIn: '',
+    website: '',
+    github: ''
+  })
+  
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData({
+      ...formData,
+      [name]: value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+    setSuccessMessage('')
+
+    const result = await submitUserInfo(formData)
+
+    if (result.success) {
+      setSuccessMessage('Your information has been successfully saved.')
+      // Redirect to the next step or page
+      // For example, navigate to step 2
+      window.location.href = "/cv-generation/create?step=2"
+    } else {
+      setError(result.message || 'An error occurred while saving your information')
+    }
+
+    setIsLoading(false)
+  }
 
   return (
     <div className={styles.container}>
@@ -74,7 +117,7 @@ export default function CreateCVPage() {
             : "Let's start with your basic information that will appear at the top of your CV"}
         </p>
 
-        <div className={styles.formGrid}>
+        {/* <div className={styles.formGrid}>
           <div className={styles.formGroup}>
             <label className={styles.formLabel}>Full Name*</label>
             <input type="text" className={styles.formInput} placeholder="John Doe" required />
@@ -130,7 +173,7 @@ export default function CreateCVPage() {
           <Link href="/cv-generation/create-cv/summary" className={styles.nextButton}>
             Next <ArrowRight size={18} />
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   )
