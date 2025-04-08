@@ -28,7 +28,7 @@ npm install
 ```bash
 npm run dev
 ```
-Visit ```http://localhost:5173``` on your browser to view the app.
+Visit ```http://localhost:3000``` on your browser to view the app.
 
 ---
 
