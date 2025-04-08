@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../auth.module.css';
-import { signIn } from '@/lib/auth'; // Assuming signIn checks credentials
 
 export default function SignInPage() {
   const router = useRouter();
@@ -24,48 +23,45 @@ export default function SignInPage() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSignIn = async () => {
     setIsLoading(true);
     setError('');
 
     try {
-      // Call the signIn API to validate credentials
-      const result = await signIn(formData);
-      if (result.success) {
-        // If credentials are correct, redirect to the dashboard
-        router.push('/dashboard');
-      } else {
-        // If there's an error (invalid credentials), display the error message
-        setError(result.message || 'Invalid credentials. Please try again.');
+      const response = await fetch('http://localhost:4000/api/user/signIn', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        console.log('Login failed:', errData); // Log actual error to console
+        throw new Error('Invalid email or password'); // Show user-friendly message
       }
+      
+
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+
+      // You can redirect to a protected route after login
+      //router.push('/dashboard'); // or `/adminHome/${formData.email}` if needed
     } catch (err) {
-      setError('An error occurred. Please try again later.');
-      console.error('Sign in error:', err);
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSignIn = async (email, password) => {
-    const response = await fetch('/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-  
-    const data = await response.json();
-  
-    if (data.success) {
-      // Store the token in localStorage (or you can use cookies)
-      localStorage.setItem('authToken', data.token);
-    } else {
-      console.error('Sign-in failed:', data.message);
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await handleSignIn();
   };
-  
 
   return (
     <div className={styles.container}>
@@ -85,9 +81,9 @@ export default function SignInPage() {
           <div className={styles.formContainer}>
             <h1 className={styles.welcomeTitle}>Welcome back</h1>
             <p className={styles.welcomeSubtitle}>Sign in to your account to continue</p>
-            
+
             {error && <div className={styles.errorMessage}>{error}</div>}
-            
+
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.inputGroup}>
                 <input
@@ -100,7 +96,7 @@ export default function SignInPage() {
                   className={styles.input}
                 />
               </div>
-              
+
               <div className={styles.inputGroup}>
                 <input
                   type="password"
@@ -112,7 +108,7 @@ export default function SignInPage() {
                   className={styles.input}
                 />
               </div>
-              
+
               <div className={styles.rememberForgot}>
                 <label className={styles.rememberMeLabel}>
                   <input
@@ -128,7 +124,7 @@ export default function SignInPage() {
                   Forgot password?
                 </Link>
               </div>
-              
+
               <button
                 type="submit"
                 className={styles.primaryButton}
@@ -137,15 +133,15 @@ export default function SignInPage() {
                 {isLoading ? 'Signing in...' : 'Sign in'}
               </button>
             </form>
-            
+
             <div className={styles.divider}>
               <span>Or continue with</span>
             </div>
-            
+
             <div className={styles.oauthButtons}>
               <button
                 type="button"
-                onClick={() => handleSignIn()}
+                onClick={() => {}}
                 className={styles.oauthButton}
                 disabled={isLoading}
               >
@@ -156,7 +152,7 @@ export default function SignInPage() {
               </button>
               <button
                 type="button"
-                onClick={() => handleOAuthSignIn('facebook')}
+                onClick={() => {}}
                 className={styles.oauthButton}
                 disabled={isLoading}
               >
@@ -166,7 +162,7 @@ export default function SignInPage() {
                 Facebook
               </button>
             </div>
-            
+
             <div className={styles.signupPrompt}>
               Don&apos;t have an account? <Link href="/auth/signup" className={styles.signupLink}>Sign up</Link>
             </div>
