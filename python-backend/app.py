@@ -5,6 +5,10 @@ from scraper.linkedin_scraper import scrape_linkedin_profile
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
+from dotenv import load_dotenv
+load_dotenv()
+
+
 @app.route('/generate-cv', methods=['POST'])
 def generate_cv():
     data = request.get_json()
