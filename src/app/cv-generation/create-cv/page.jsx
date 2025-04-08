@@ -263,6 +263,9 @@
 // }
 "use client"
 
+// Disable static prerendering for this page
+export const dynamic = "force-dynamic";
+
 import Link from "next/link"
 import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
@@ -278,7 +281,7 @@ import {
 import styles from "./create-cv.module.css"
 import { submitUserInfo } from "@/lib/userAPIs"
 
-// CreateCVPage component
+// Main component that uses client-side hooks
 function CreateCVPage() {
   const searchParams = useSearchParams()
   const [isFromUpload, setIsFromUpload] = useState(false)
@@ -298,6 +301,7 @@ function CreateCVPage() {
   const [error, setError] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
 
+  // useEffect runs on the client, so we can safely use useSearchParams
   useEffect(() => {
     const source = searchParams.get("source")
     if (source === "upload") {
@@ -317,14 +321,12 @@ function CreateCVPage() {
     setSuccessMessage("")
 
     const result = await submitUserInfo(formData)
-
     if (result.success) {
       setSuccessMessage("Your information has been successfully saved.")
       window.location.href = "/cv-generation/create?step=2"
     } else {
       setError(result.message || "An error occurred while saving your information")
     }
-
     setIsLoading(false)
   }
 
@@ -522,7 +524,7 @@ function CreateCVPage() {
   )
 }
 
-// Wrapping the CreateCVPage component in Suspense
+// Wrap the CreateCVPage in Suspense to ensure client-only hooks work as expected
 export default function Page() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -530,4 +532,5 @@ export default function Page() {
     </Suspense>
   )
 }
+
 
