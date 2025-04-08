@@ -1,168 +1,160 @@
 "use client"
 
-import Link from "next/link"
-import Image from "next/image"
-import { useSearchParams } from "next/navigation"
-import {
-  Download,
-  Share2,
-  Edit,
-  ArrowLeft,
-  CheckCircle,
-  Mail,
-  Linkedin,
-  Twitter,
-} from "lucide-react"
-import styles from "./preview-cv.module.css"
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import styles from './preview-cv.module.css';
 
-export default function PreviewPage() {
-  const searchParams = useSearchParams();
-  const template = searchParams.get('template') || 'classic';
-  const source = searchParams.get('source') || 'create';
+export default function PreviewCVPage() {
+  const router = useRouter();
+  const [cvHtml, setCvHtml] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
+  const [error, setError] = useState('');
+  
+  useEffect(() => {
+    // Get the generated CV HTML from session storage
+    const storedHtml = sessionStorage.getItem('generatedCVHtml');
+    
+    if (!storedHtml) {
+      setError('No CV found. Please go back and generate your CV first.');
+      setLoading(false);
+      return;
+    }
+    
+    setCvHtml(storedHtml);
+    setLoading(false);
+  }, []);
+
+  const downloadAsPdf = () => {
+    setDownloadingPdf(true);
+    
+    try {
+      // Use browser's print functionality to save as PDF
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>My CV</title>
+          </head>
+          <body>
+            ${cvHtml}
+          </body>
+        </html>
+      `);
+      
+      // Wait for content to load then print
+      printWindow.document.addEventListener('DOMContentLoaded', () => {
+        printWindow.print();
+        printWindow.close();
+        setDownloadingPdf(false);
+      });
+      
+      printWindow.document.close();
+    } catch (err) {
+      setError('Error generating PDF: ' + (err.message || 'Unknown error'));
+      setDownloadingPdf(false);
+    }
+  };
+
+  // Function to extract name from CV HTML for filename
+  const extractNameForFilename = (html) => {
+    const nameMatch = html.match(/<h1[^>]*>(.*?)<\/h1>/i);
+    return nameMatch ? nameMatch[1].trim().replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'my_cv';
+  };
+
+  const downloadAsHtml = () => {
+    try {
+      // Create a Blob with the HTML content
+      const blob = new Blob([`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>My CV</title>
+          </head>
+          <body>
+            ${cvHtml}
+          </body>
+        </html>
+      `], { type: 'text/html' });
+      
+      // Create download link
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const filename = `${extractNameForFilename(cvHtml)}_cv.html`;
+      
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      
+      // Cleanup
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setError('Error downloading HTML: ' + (err.message || 'Unknown error'));
+    }
+  };
+
+  const handleStartOver = () => {
+    // Clear stored CV data
+    sessionStorage.removeItem('parsedCVData');
+    sessionStorage.removeItem('generatedCVHtml');
+    sessionStorage.removeItem('generatedCVId');
+    
+    // Go back to the CV generation home page
+    router.push('/cv-generation');
+  };
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.headerLeft}>
-          <h1 className={styles.title}>Your CV is Ready!</h1>
-          <p className={styles.subtitle}>
-            Your professional CV has been generated and optimized for your target role
-          </p>
-        </div>
-        <div className={styles.headerActions}>
-          <button className={styles.actionButton}>
-            <Download size={18} />
-            Download PDF
-          </button>
-          <button className={styles.actionButton}>
-            <Share2 size={18} />
-            Share
-          </button>
-          <Link href="/cv-generation/create-cv" className={styles.editButton}>
-            <Edit size={18} />
-            Edit
-          </Link>
-        </div>
-      </div>
-
-      <div className={styles.previewContainer}>
-        <div className={styles.previewDocument}>
-          <Image
-            src="/placeholder.svg?height=1200&width=850"
-            alt="CV Preview"
-            width={850}
-            height={1200}
-            className={styles.previewImage}
-          />
-        </div>
-
-        <div className={styles.previewSidebar}>
-          <div className={styles.scoreCard}>
-            <div className={styles.scoreHeader}>
-              <h3 className={styles.scoreTitle}>CV Score</h3>
-              <div className={styles.scoreValue}>
-                92<span className={styles.scoreMax}>/100</span>
-              </div>
-            </div>
-            <div className={styles.scoreProgress}>
-              <div className={styles.progressBar} style={{ width: "92%" }}></div>
-            </div>
-            <p className={styles.scoreDescription}>
-              Your CV is well-optimized for your target role!
-            </p>
+      <h1 className={styles.pageTitle}>Preview Your CV</h1>
+      
+      {error && <div className={styles.errorMessage}>{error}</div>}
+      
+      {loading ? (
+        <div className={styles.loading}>Loading your CV...</div>
+      ) : (
+        <>
+          <div className={styles.previewToolbar}>
+            <button 
+              onClick={downloadAsPdf}
+              className={styles.primaryButton}
+              disabled={downloadingPdf}
+            >
+              {downloadingPdf ? 'Generating PDF...' : 'Download as PDF'}
+            </button>
+            <button 
+              onClick={downloadAsHtml}
+              className={styles.secondaryButton}
+            >
+              Download as HTML
+            </button>
           </div>
-
-          <div className={styles.optimizationCard}>
-            <h3 className={styles.optimizationTitle}>Optimization Report</h3>
-
-            <div className={styles.optimizationItem}>
-              <CheckCircle size={18} className={styles.checkIcon} />
-              <div>
-                <h4 className={styles.itemTitle}>ATS Compatibility</h4>
-                <p className={styles.itemDescription}>
-                  Your CV is optimized for applicant tracking systems
-                </p>
-              </div>
-            </div>
-
-            <div className={styles.optimizationItem}>
-              <CheckCircle size={18} className={styles.checkIcon} />
-              <div>
-                <h4 className={styles.itemTitle}>Keyword Optimization</h4>
-                <p className={styles.itemDescription}>
-                  Contains relevant keywords for your target role
-                </p>
-              </div>
-            </div>
-
-            <div className={styles.optimizationItem}>
-              <CheckCircle size={18} className={styles.checkIcon} />
-              <div>
-                <h4 className={styles.itemTitle}>Professional Formatting</h4>
-                <p className={styles.itemDescription}>
-                  Clean, professional layout with proper spacing
-                </p>
-              </div>
-            </div>
-
-            <div className={styles.optimizationItem}>
-              <CheckCircle size={18} className={styles.checkIcon} />
-              <div>
-                <h4 className={styles.itemTitle}>Quantifiable Achievements</h4>
-                <p className={styles.itemDescription}>
-                  Includes measurable results and achievements
-                </p>
-              </div>
-            </div>
+          
+          <div className={styles.previewContainer}>
+            <iframe 
+              srcDoc={cvHtml}
+              title="CV Preview"
+              className={styles.previewFrame}
+            />
           </div>
-
-          <div className={styles.nextStepsCard}>
-            <h3 className={styles.nextStepsTitle}>Next Steps</h3>
-            <ul className={styles.nextStepsList}>
-              <li className={styles.nextStepItem}>
-                <Link href="/job-matching" className={styles.nextStepLink}>
-                  Find matching jobs
-                </Link>
-              </li>
-              <li className={styles.nextStepItem}>
-                <Link href="/cv-generation/cover-letter" className={styles.nextStepLink}>
-                  Generate a matching cover letter
-                </Link>
-              </li>
-              <li className={styles.nextStepItem}>
-                <Link href="/skill-development" className={styles.nextStepLink}>
-                  Identify skill gaps for your target role
-                </Link>
-              </li>
-            </ul>
+          
+          <div className={styles.actionButtons}>
+            <button 
+              onClick={() => router.back()} 
+              className={styles.secondaryButton}
+            >
+              Back to Templates
+            </button>
+            <button 
+              onClick={handleStartOver} 
+              className={styles.primaryButton}
+            >
+              Create a New CV
+            </button>
           </div>
-        </div>
-      </div>
-
-      <div className={styles.shareSection}>
-        <h3 className={styles.shareTitle}>Share Your CV</h3>
-        <div className={styles.shareOptions}>
-          <button className={`${styles.shareButton} ${styles.emailShare}`}>
-            <Mail size={18} />
-            Email
-          </button>
-          <button className={`${styles.shareButton} ${styles.linkedinShare}`}>
-            <Linkedin size={18} />
-            LinkedIn
-          </button>
-          <button className={`${styles.shareButton} ${styles.twitterShare}`}>
-            <Twitter size={18} />
-            Twitter
-          </button>
-        </div>
-      </div>
-
-      <div className={styles.actions}>
-        <Link href={`/cv-generation/cv-templates?source=${source}`} className={styles.backButton}>
-          <ArrowLeft size={18} />
-          Back to Templates
-        </Link>
-      </div>
+        </>
+      )}
     </div>
-  )
+  );
 }

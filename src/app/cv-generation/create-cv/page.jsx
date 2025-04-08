@@ -14,8 +14,7 @@ import {
 // import { useSearchParams } from "next/navigation"
 // import { User, FileText, Briefcase, GraduationCap, Award, Languages, ArrowRight, ArrowLeft } from "lucide-react"
 import styles from "./create-cv.module.css"
-import { submitUserInfo } from "@/lib/userAPIs" // Importing the API function
-
+import { storeUserInfo } from "@/lib/userAPIs" // Fixed import name from submitUserInfo to storeUserInfo
 
 // export default function CreateCVPage() {
 //   const searchParams = useSearchParams();
@@ -51,7 +50,7 @@ export default function Page() {
     setError('')
     setSuccessMessage('')
 
-    const result = await submitUserInfo(formData)
+    const result = await storeUserInfo(formData)
 
     if (result.success) {
       setSuccessMessage('Your information has been successfully saved.')

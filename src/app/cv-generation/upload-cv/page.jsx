@@ -1,121 +1,161 @@
 "use client"
 
-import { useState, useRef } from "react"
-import Link from "next/link"
-import { Upload, FileText, Linkedin, ArrowRight } from "lucide-react"
-import axios from "axios"  // Axios for making HTTP requests
-import styles from "./upload-cv.module.css"
+import { useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { uploadCV } from '@/lib/userAPIs';
+import styles from '../cv-generation.module.css';
 
-export default function UploadPage() {
-  const fileInputRef = useRef(null)  // Create a reference to the file input
-  const [uploading, setUploading] = useState(false)  // To show loading state while uploading
-
-
-  // Trigger the file input click when the user clicks on the upload area
-  const handleUploadAreaClick = () => {
-    fileInputRef.current.click()  // Trigger the click on the hidden file input
-  }
-
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      // Get the email from the logged-in user (You can fetch this from your app's state or context)
-      const userEmail = "chathu2@example.com"  // Replace this with actual user email from your app state
+export default function UploadCVPage() {
+  const router = useRouter();
+  const [file, setFile] = useState(null);
+  const [dragging, setDragging] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   
-      // Prepare FormData for file upload
-      const formData = new FormData()
-      formData.append("cv", file) // Append the file
-      formData.append("email", userEmail)  // Append the email
-  
-      // Upload the file to the backend
-      setUploading(true)
-      try {
-        const response = await axios.post("/api/user/uploadCV", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data", // Set the appropriate header for file upload
-          },
-        })
-        console.log("Upload success:", response.data)
-        alert("File uploaded successfully")
-      } catch (error) {
-        console.error("Upload error:", error)
-        alert("File upload failed, please try again")
-      } finally {
-        setUploading(false)
-      }
+  // For demo purposes, hardcoded email - in a real app this would come from authentication
+  const userEmail = 'user@example.com';
+
+  const handleDragOver = useCallback((e) => {
+    e.preventDefault();
+    setDragging(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e) => {
+    e.preventDefault();
+    setDragging(false);
+  }, []);
+
+  const handleDrop = useCallback((e) => {
+    e.preventDefault();
+    setDragging(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const droppedFile = e.dataTransfer.files[0];
+      handleFileSelection(droppedFile);
     }
-  }
-  
+  }, []);
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      handleFileSelection(e.target.files[0]);
+    }
+  };
+
+  const handleFileSelection = (selectedFile) => {
+    // Validate file type
+    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+    if (!validTypes.includes(selectedFile.type)) {
+      setError('Please upload a PDF, DOCX, or TXT file');
+      setFile(null);
+      return;
+    }
+    
+    // Validate file size (max 50MB)
+    if (selectedFile.size > 50 * 1024 * 1024) {
+      setError('File size exceeds 50MB limit');
+      setFile(null);
+      return;
+    }
+    
+    setFile(selectedFile);
+    setError('');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!file) {
+      setError('Please select a file to upload');
+      return;
+    }
+    
+    setLoading(true);
+    setError('');
+    
+    try {
+      const response = await uploadCV(file, userEmail);
+      
+      if (response.success) {
+        // Store the parsed data in sessionStorage to use in the create-cv pages
+        sessionStorage.setItem('parsedCVData', JSON.stringify(response.parsedData));
+        
+        // Navigate to the first step of the create-cv flow to review extracted information
+        router.push('/cv-generation/create-cv/personal-information');
+      } else {
+        setError(response.message || 'Failed to process CV');
+      }
+    } catch (err) {
+      setError(err.message || 'An error occurred while uploading your CV');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Upload Your Existing CV</h1>
-        <p className={styles.subtitle}>
-          Upload your current resume and our AI will enhance it to make it more effective
-        </p>
-      </div>
-
-      <div className={styles.uploadContainer}>
-        <div
-          className={styles.uploadArea}
-          onClick={handleUploadAreaClick}  // Trigger the file input click on area click
+      <h1 className={styles.pageTitle}>Upload your CV</h1>
+      <p className={styles.pageDescription}>
+        Upload your existing CV to get started. We&apos;ll extract the information and let you review it before generating your new CV.
+      </p>
+      
+      {error && <div className={styles.errorMessage}>{error}</div>}
+      
+      <form onSubmit={handleSubmit} className={styles.uploadForm}>
+        <div 
+          className={`${styles.dropzone} ${dragging ? styles.dragging : ''}`}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
         >
-          <div className={styles.uploadIcon}>
-            <Upload size={48} color="#4F6AF6" />
+          <input 
+            type="file" 
+            id="cv-upload" 
+            accept=".pdf,.doc,.docx,.txt" 
+            onChange={handleFileChange}
+            className={styles.fileInput}
+          />
+          
+          <div className={styles.uploadContent}>
+            <img src="/file.svg" alt="Upload" className={styles.uploadIcon} />
+            <p className={styles.uploadText}>
+              Drag & Drop your file here<br />
+              or <span className={styles.browseText}>browse files</span> on your computer
+            </p>
+            <p className={styles.uploadNote}>
+              Supported formats: PDF, DOCX, TXT (Max 50MB)
+            </p>
           </div>
-          <h3 className={styles.uploadTitle}>Drag & Drop your file here</h3>
-          <p className={styles.uploadDescription}>
-            or <span className={styles.browseText}>browse files</span> on your computer
-          </p>
-          <p className={styles.fileFormats}>Supported formats: PDF, DOCX, TXT (Max 50MB)</p>
         </div>
-
-        <div className={styles.divider}>
-          <span className={styles.dividerText}>OR</span>
+        
+        {file && (
+          <div className={styles.selectedFile}>
+            <p>Selected file: {file.name}</p>
+          </div>
+        )}
+        
+        <div className={styles.actionButtons}>
+          <button 
+            type="submit" 
+            className={styles.primaryButton}
+            disabled={loading}
+          >
+            {loading ? 'Processing...' : 'Continue'}
+          </button>
         </div>
-
-        <div className={styles.alternativeOptions}>
-          <Link href="/cv-generation/linkedin-import" className={styles.linkedinButton}>
-            <Linkedin size={20} />
+      </form>
+      
+      <div className={styles.alternativeOptions}>
+        <p>Or choose another option:</p>
+        <div className={styles.optionLinks}>
+          <Link href="/cv-generation/linkedin-import" className={styles.optionLink}>
             Import from LinkedIn
           </Link>
-
-          <div className={styles.jobDescriptionArea}>
-            <h3 className={styles.jobDescriptionTitle}>
-              <FileText size={20} />
-              Paste Job Description
-            </h3>
-            <p className={styles.jobDescriptionText}>
-              Paste the job description you're applying for and let our AI optimize your CV
-            </p>
-            <textarea
-              className={styles.jobDescriptionInput}
-              placeholder="Paste your job description here..."
-              rows={5}
-            />
-          </div>
+          <Link href="/cv-generation/create-cv/personal-information" className={styles.optionLink}>
+            Create from scratch
+          </Link>
         </div>
       </div>
-
-      <div className={styles.actions}>
-        <Link href="/cv-generation" className={styles.backButton}>
-          Back
-        </Link>
-        <Link href="/cv-generation/create-cv?source=upload" className={styles.continueButton}>
-          Continue
-          <ArrowRight size={18} />
-        </Link>
-      </div>
-      
-      {/* Hidden file input for file selection */}
-      <input
-        type="file"
-        ref={fileInputRef}  // Set the reference to the input
-        style={{ display: "none" }}  // Hide the input
-        accept=".pdf,.docx,.txt"  // Accept only PDF, DOCX, and TXT files
-        onChange={handleFileChange}  // Handle file selection
-      />
     </div>
-  )
+  );
 }
