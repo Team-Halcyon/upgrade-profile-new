@@ -118,9 +118,6 @@
 // }
 "use client"
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -185,7 +182,8 @@ function TemplatesPage() {
       <div className={styles.header}>
         <h1 className={styles.title}>Choose your preferred CV template</h1>
         <p className={styles.subtitle}>
-          Select a professional template that best represents your personal brand
+          Select a professional template that best represents your personal
+          brand
         </p>
       </div>
 
@@ -246,7 +244,7 @@ function TemplatesPage() {
   )
 }
 
-// Wrap TemplatesPage in Suspense so that any client-only hook is not invoked during SSR.
+// Wrap the TemplatesPage in Suspense so that client hooks are not called during SSR.
 export default function Page() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -254,4 +252,5 @@ export default function Page() {
     </Suspense>
   )
 }
+
 
