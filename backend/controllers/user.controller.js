@@ -20,6 +20,7 @@ export const signUp = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Server error' });
   }
 };
+
 export const signIn = async (req, res) => {
   const { email, password } = req.body;
 
