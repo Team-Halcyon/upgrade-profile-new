@@ -1,10 +1,39 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import { Linkedin, ArrowRight, Lock, CheckCircle } from "lucide-react"
 import styles from "./linkedin-import.module.css"
+import axios from "axios"
 
 export default function LinkedinImportPage() {
+  const [linkedinUrl, setLinkedinUrl] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [cvData, setCvData] = useState(null)
+
+  const handleConnect = async () => {
+    if (!linkedinUrl.trim()) {
+      setError("Please enter a LinkedIn profile URL")
+      return
+    }
+
+    try {
+      setLoading(true)
+      setError("")
+      const res = await axios.post("http://localhost:5000/generate-cv", {
+        linkedin_url: linkedinUrl
+      })
+      setCvData(res.data.cv_data)
+      console.log("CV data:", res.data.cv_data)
+    } catch (err) {
+      console.error(err)
+      setError("Failed to generate CV. Please try again.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -24,9 +53,27 @@ export default function LinkedinImportPage() {
             We'll use your LinkedIn profile data to create a professional CV instantly
           </p>
 
-          <button className={styles.connectButton}>
+          <label htmlFor="linkedinUrl" className={styles.urlLabel}>
+            Enter your LinkedIn profile URL
+          </label>
+          <input
+            type="text"
+            id="linkedinUrl"
+            placeholder="https://www.linkedin.com/in/your-profile"
+            value={linkedinUrl}
+            onChange={(e) => setLinkedinUrl(e.target.value)}
+            className={styles.linkedinInput}
+          />
+
+          {error && <p className={styles.error}>{error}</p>}
+
+          <button
+            className={styles.connectButton}
+            onClick={handleConnect}
+            disabled={loading}
+          >
             <Linkedin size={20} />
-            Connect with LinkedIn
+            {loading ? "Generating..." : "Connect with LinkedIn"}
           </button>
 
           <div className={styles.privacyNote}>
@@ -38,42 +85,21 @@ export default function LinkedinImportPage() {
         <div className={styles.benefitsSection}>
           <h3 className={styles.benefitsTitle}>Benefits of LinkedIn Import</h3>
           <ul className={styles.benefitsList}>
-            <li className={styles.benefitItem}>
-              <CheckCircle size={20} className={styles.checkIcon} />
-              <div>
-                <h4 className={styles.benefitName}>Save Time</h4>
-                <p className={styles.benefitDescription}>
-                  Import your entire professional history in seconds
-                </p>
-              </div>
-            </li>
-            <li className={styles.benefitItem}>
-              <CheckCircle size={20} className={styles.checkIcon} />
-              <div>
-                <h4 className={styles.benefitName}>Complete Information</h4>
-                <p className={styles.benefitDescription}>
-                  We'll import your work experience, education, skills, and more
-                </p>
-              </div>
-            </li>
-            <li className={styles.benefitItem}>
-              <CheckCircle size={20} className={styles.checkIcon} />
-              <div>
-                <h4 className={styles.benefitName}>AI Enhancement</h4>
-                <p className={styles.benefitDescription}>
-                  Our AI will optimize your imported data for better results
-                </p>
-              </div>
-            </li>
-            <li className={styles.benefitItem}>
-              <CheckCircle size={20} className={styles.checkIcon} />
-              <div>
-                <h4 className={styles.benefitName}>Fully Editable</h4>
-                <p className={styles.benefitDescription}>
-                  You can edit all imported information after import
-                </p>
-              </div>
-            </li>
+            {/* Benefit items */}
+            {[
+              ["Save Time", "Import your entire professional history in seconds"],
+              ["Complete Information", "We'll import your work experience, education, skills, and more"],
+              ["AI Enhancement", "Our AI will optimize your imported data for better results"],
+              ["Fully Editable", "You can edit all imported information after import"]
+            ].map(([title, desc], i) => (
+              <li key={i} className={styles.benefitItem}>
+                <CheckCircle size={20} className={styles.checkIcon} />
+                <div>
+                  <h4 className={styles.benefitName}>{title}</h4>
+                  <p className={styles.benefitDescription}>{desc}</p>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
