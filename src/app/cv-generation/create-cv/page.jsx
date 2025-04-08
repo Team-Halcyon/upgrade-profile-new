@@ -264,7 +264,7 @@
 "use client"
 
 import Link from "next/link"
-import { useState, Suspense } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import {
   ArrowRight,
@@ -281,8 +281,7 @@ import { submitUserInfo } from "@/lib/userAPIs"
 // CreateCVPage component
 function CreateCVPage() {
   const searchParams = useSearchParams()
-  const source = searchParams.get("source")
-  const isFromUpload = source === "upload"
+  const [isFromUpload, setIsFromUpload] = useState(false)
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -298,6 +297,13 @@ function CreateCVPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
+
+  useEffect(() => {
+    const source = searchParams.get("source")
+    if (source === "upload") {
+      setIsFromUpload(true)
+    }
+  }, [searchParams])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -524,3 +530,4 @@ export default function Page() {
     </Suspense>
   )
 }
+
