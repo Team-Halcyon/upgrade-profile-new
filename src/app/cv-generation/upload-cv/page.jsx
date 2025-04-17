@@ -26,11 +26,10 @@ export default function UploadPage() {
       const formData = new FormData()
       formData.append("cv", file) // Append the file
       formData.append("email", userEmail)  // Append the email
-  
       // Upload the file to the backend
       setUploading(true)
       try {
-        const response = await axios.post("/api/user/uploadCV", formData, {
+        const response = await axios.post("http://localhost:4000/api/user/uploadCV", formData, {
           headers: {
             "Content-Type": "multipart/form-data", // Set the appropriate header for file upload
           },
