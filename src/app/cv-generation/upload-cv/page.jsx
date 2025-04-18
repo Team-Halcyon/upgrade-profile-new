@@ -28,7 +28,7 @@ if (token) {
   const handleFileChange = async (e) => {
     const file = e.target.files[0]
     if (file) {
-      const userEmail = getEmailFromToken()
+      const userEmail = localStorage.getItem("userEmail")  // Get user email from localStorage
       if (!userEmail) {
         alert("User not authenticated. Please sign in again.")
         return

@@ -34,11 +34,19 @@ export const signIn = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
+    
+    // Create JWT token with user email
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      'your-secret-key',
+      { expiresIn: '1h' }
+    );
 
-    // Create JWT token
-    const token = jwt.sign({ userId: user.id }, 'your-secret-key', { expiresIn: '1h' });
-
-    return res.status(200).json({ success: true, message: 'Login successful', token });
+    return res.status(200).json({
+      success: true,
+      message: 'Login successful',
+      token,
+    });
   } catch (err) {
     console.error('Signin error:', err);
     return res.status(500).json({ success: false, message: 'Server error' });

@@ -1,5 +1,5 @@
 "use client";
-
+import { jwtDecode } from "jwt-decode"
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -23,6 +23,7 @@ export default function SignInPage() {
     });
   };
 
+  
   const handleSignIn = async () => {
     setIsLoading(true);
     setError('');
@@ -41,22 +42,35 @@ export default function SignInPage() {
 
       if (!response.ok) {
         const errData = await response.json();
-        console.log('Login failed:', errData); // Log actual error to console
-        throw new Error('Invalid email or password'); // Show user-friendly message
+        console.log('Login failed:', errData);
+        throw new Error('Invalid email or password');
       }
-      
 
       const data = await response.json();
-      localStorage.setItem('token', data.token);
+      const token = data.token;
 
-      // You can redirect to a protected route after login
-      //router.push('/dashboard'); // or `/adminHome/${formData.email}` if needed
+      // Save token to localStorage
+      localStorage.setItem('token', token);
+
+      // Decode token to get user email
+      const decoded = jwtDecode(token);
+      const userEmail = decoded.email;
+
+      // Optionally store email separately
+      localStorage.setItem('userEmail', userEmail);
+
+      console.log("Login successful:", userEmail);
+
+      // Optional: Redirect to another page
+      // router.push(`/dashboard`);
+      // or router.push(`/adminHome/${userEmail}`);
     } catch (err) {
       setError(err.message);
     } finally {
       setIsLoading(false);
     }
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
