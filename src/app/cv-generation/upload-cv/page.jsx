@@ -9,6 +9,7 @@ import styles from "./upload-cv.module.css"
 export default function UploadPage() {
   const fileInputRef = useRef(null)  // Create a reference to the file input
   const [uploading, setUploading] = useState(false)  // To show loading state while uploading
+  const [uploadedFileName, setUploadedFileName] = useState("")
 
 
   // Trigger the file input click when the user clicks on the upload area
@@ -26,15 +27,16 @@ export default function UploadPage() {
       const formData = new FormData()
       formData.append("cv", file) // Append the file
       formData.append("email", userEmail)  // Append the email
-  
       // Upload the file to the backend
       setUploading(true)
+      setUploadedFileName("")  // Set the uploaded file name for display
       try {
-        const response = await axios.post("/api/user/uploadCV", formData, {
+        const response = await axios.post("http://localhost:4000/api/user/uploadCV", formData, {
           headers: {
             "Content-Type": "multipart/form-data", // Set the appropriate header for file upload
           },
         })
+        setUploadedFileName(file.name)
         console.log("Upload success:", response.data)
         alert("File uploaded successfully")
       } catch (error) {
@@ -64,11 +66,21 @@ export default function UploadPage() {
           <div className={styles.uploadIcon}>
             <Upload size={48} color="#4F6AF6" />
           </div>
-          <h3 className={styles.uploadTitle}>Drag & Drop your file here</h3>
-          <p className={styles.uploadDescription}>
-            or <span className={styles.browseText}>browse files</span> on your computer
-          </p>
-          <p className={styles.fileFormats}>Supported formats: PDF, DOCX, TXT (Max 50MB)</p>
+          {uploading ? (
+            <>
+              <p className={styles.uploadingText}>Uploading...</p>
+            </>
+          ) : uploadedFileName ? (
+            <p className={styles.uploadedText}>Uploaded: {uploadedFileName}</p>
+          ) : (
+            <>
+              <h3 className={styles.uploadTitle}>Drag & Drop your file here</h3>
+              <p className={styles.uploadDescription}>
+                or <span className={styles.browseText}>browse files</span> on your computer
+              </p>
+              <p className={styles.fileFormats}>Supported formats: PDF, DOCX, TXT (Max 50MB)</p>
+            </>
+          )}
         </div>
 
         <div className={styles.divider}>
