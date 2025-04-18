@@ -49,7 +49,7 @@ export default function SignUpPage() {
       const result = await signUp(formData);
 
       if (result.success) {
-        router.push('/dashboard');
+        router.push('../../');
       } else {
         setError(result.message || 'Failed to create account. Please try again.');
       }

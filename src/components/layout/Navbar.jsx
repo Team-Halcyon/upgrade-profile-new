@@ -6,9 +6,27 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import styles from './Navbar.module.css';
 import Button from '../common/Button';
+import { useState, useRef, useEffect } from 'react';
+import { useAuth } from '@/context/authContext'; // Adjust the import path as necessary
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { user, logout } = useAuth(); 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+
+  const handleClickOutside = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      setDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <nav className={styles.navbar}>
@@ -61,27 +79,40 @@ const Navbar = () => {
         </div>
 
         <div className={styles.rightSection}>
-          <div className={styles.authButtons}>
-            <Link href="/auth/signin">
-              <Button
-                variant="outline"
-                size="sm"
-                className={styles.signInButton}
-              >
-                
-                Sign In
-              </Button>
-            </Link>
-            <Link href="/auth/signup">
-              <Button
-                variant="primary"
-                size="sm"
-                className={styles.signUpButton}
-              >
-                Sign Up
-              </Button>
-            </Link>
-          </div>
+          {user ? (
+            <div className={styles.userNavIcons}>
+              
+                <Image
+                  src="/images/blank-profile-picture.png" // Replace with real user image if available
+                  alt="User"
+                  width={32}
+                  height={32}
+                  className={styles.profileIcon}
+                  onClick={toggleDropdown}
+                />
+              {dropdownOpen && (
+                <div ref={dropdownRef} className={styles.dropdownMenu}>
+                  <Link href="/dashboard" className={styles.dropdownItem}>Profile</Link>
+                  <button className={`${styles.dropdownItem} ${styles.logout}`} onClick={() => logout()}>
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className={styles.authButtons}>
+              <Link href="/auth/signin">
+                <Button variant="outline" size="sm" className={styles.signInButton}>
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/auth/signup">
+                <Button variant="primary" size="sm" className={styles.signUpButton}>
+                  Sign Up
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

@@ -4,8 +4,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../auth.module.css';
+import { useAuth } from '@/context/authContext';
 
 export default function SignInPage() {
+  const { login } = useAuth(); 
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
@@ -47,10 +49,10 @@ export default function SignInPage() {
       
 
       const data = await response.json();
-      localStorage.setItem('token', data.token);
+      login(data.token);
 
       // You can redirect to a protected route after login
-      //router.push('/dashboard'); // or `/adminHome/${formData.email}` if needed
+      router.push('../../'); // or `/adminHome/${formData.email}` if needed
     } catch (err) {
       setError(err.message);
     } finally {
