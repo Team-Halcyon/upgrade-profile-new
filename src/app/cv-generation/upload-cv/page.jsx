@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react"
 import Link from "next/link"
+import { jwtDecode } from "jwt-decode"
 import { Upload, FileText, Linkedin, ArrowRight } from "lucide-react"
 import axios from "axios"  // Axios for making HTTP requests
 import styles from "./upload-cv.module.css"
@@ -15,24 +16,33 @@ export default function UploadPage() {
   const handleUploadAreaClick = () => {
     fileInputRef.current.click()  // Trigger the click on the hidden file input
   }
+  const getEmailFromToken = () => {
+    const token = localStorage.getItem("token")
+if (token) {
+  const decoded = jwtDecode(token)
+  const userEmail = decoded.email
+  console.log(userEmail)
+}
 
+  }
   const handleFileChange = async (e) => {
     const file = e.target.files[0]
     if (file) {
-      // Get the email from the logged-in user (You can fetch this from your app's state or context)
-      const userEmail = "chathu2@example.com"  // Replace this with actual user email from your app state
-  
-      // Prepare FormData for file upload
+      const userEmail = getEmailFromToken()
+      if (!userEmail) {
+        alert("User not authenticated. Please sign in again.")
+        return
+      }
+
       const formData = new FormData()
-      formData.append("cv", file) // Append the file
-      formData.append("email", userEmail)  // Append the email
-  
-      // Upload the file to the backend
+      formData.append("cv", file)
+      formData.append("email", userEmail)
+
       setUploading(true)
       try {
         const response = await axios.post("http://localhost:4000/api/user/uploadCV", formData, {
           headers: {
-            "Content-Type": "multipart/form-data", // Set the appropriate header for file upload
+            "Content-Type": "multipart/form-data",
           },
         })
         console.log("Upload success:", response.data)
@@ -45,7 +55,7 @@ export default function UploadPage() {
       }
     }
   }
-  
+
 
   return (
     <div className={styles.container}>
