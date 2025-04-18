@@ -20,7 +20,7 @@ import { submitUserInfo } from "@/lib/userAPIs" // Importing the API function
 // export default function CreateCVPage() {
 //   const searchParams = useSearchParams();
 //   const source = searchParams.get('source');
-//   const isFromUpload = source === 'upload';
+const isFromUpload = source === 'upload';
 export default function Page() {
   const [formData, setFormData] = useState({
     fullName: '',

@@ -4,27 +4,17 @@ import { useState, useRef } from "react"
 import Link from "next/link"
 import { jwtDecode } from "jwt-decode"
 import { Upload, FileText, Linkedin, ArrowRight } from "lucide-react"
-import axios from "axios"  // Axios for making HTTP requests
+import axios from "axios"
 import styles from "./upload-cv.module.css"
 
 export default function UploadPage() {
-  const fileInputRef = useRef(null)  // Create a reference to the file input
-  const [uploading, setUploading] = useState(false)  // To show loading state while uploading
+  const fileInputRef = useRef(null)
+  const [uploading, setUploading] = useState(false)
 
-
-  // Trigger the file input click when the user clicks on the upload area
   const handleUploadAreaClick = () => {
     fileInputRef.current.click()  // Trigger the click on the hidden file input
   }
-  const getEmailFromToken = () => {
-    const token = localStorage.getItem("token")
-if (token) {
-  const decoded = jwtDecode(token)
-  const userEmail = decoded.email
-  console.log(userEmail)
-}
 
-  }
   const handleFileChange = async (e) => {
     const file = e.target.files[0]
     if (file) {
@@ -67,10 +57,7 @@ if (token) {
       </div>
 
       <div className={styles.uploadContainer}>
-        <div
-          className={styles.uploadArea}
-          onClick={handleUploadAreaClick}  // Trigger the file input click on area click
-        >
+        <div className={styles.uploadArea} onClick={handleUploadAreaClick}>
           <div className={styles.uploadIcon}>
             <Upload size={48} color="#4F6AF6" />
           </div>
@@ -117,14 +104,14 @@ if (token) {
           <ArrowRight size={18} />
         </Link>
       </div>
-      
-      {/* Hidden file input for file selection */}
+
+      {/* Hidden file input */}
       <input
         type="file"
-        ref={fileInputRef}  // Set the reference to the input
-        style={{ display: "none" }}  // Hide the input
-        accept=".pdf,.docx,.txt"  // Accept only PDF, DOCX, and TXT files
-        onChange={handleFileChange}  // Handle file selection
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        accept=".pdf,.docx,.txt"
+        onChange={handleFileChange}
       />
     </div>
   )
