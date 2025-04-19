@@ -1,6 +1,7 @@
 "use client"
 
 import styles from "./templates.module.css"
+import { FormattedText } from "@/lib/text-formatter"
 
 export default function MinimalTemplate({ data }) {
   const { personalInfo, summary, experience, education, skills, languages, certifications, projects } = data
@@ -25,7 +26,7 @@ export default function MinimalTemplate({ data }) {
         <section className={styles.section}>
           <h2 className={styles.minimalSectionTitle}>Summary</h2>
           <div className={styles.minimalDivider}></div>
-          <div className={styles.summary}>{summary}</div>
+          <FormattedText text={summary} className={styles.summary} />
         </section>
       )}
 
@@ -43,11 +44,10 @@ export default function MinimalTemplate({ data }) {
                   {exp.startDate} - {exp.current ? "Present" : exp.endDate}
                 </div>
               </div>
-              <div className={styles.experienceDescription}>
-                {exp.description.split("\n").map((line, i) => (
-                  <p key={i}>{line}</p>
-                ))}
-              </div>
+              <FormattedText 
+                text={exp.description} 
+                className={styles.experienceDescription} 
+              />
             </div>
           ))}
         </section>
@@ -68,11 +68,10 @@ export default function MinimalTemplate({ data }) {
                 </div>
               </div>
               {edu.description && (
-                <div className={styles.educationDescription}>
-                  {edu.description.split("\n").map((line, i) => (
-                    <p key={i}>{line}</p>
-                  ))}
-                </div>
+                <FormattedText 
+                  text={edu.description} 
+                  className={styles.educationDescription} 
+                />
               )}
             </div>
           ))}
@@ -129,7 +128,10 @@ export default function MinimalTemplate({ data }) {
           {projects.map((project, index) => (
             <div key={index} className={styles.projectItem}>
               <h3 className={styles.projectName}>{project.name}</h3>
-              <div className={styles.projectDescription}>{project.description}</div>
+              <FormattedText 
+                text={project.description} 
+                className={styles.projectDescription} 
+              />
               {project.url && (
                 <div className={styles.projectUrl}>
                   <a href={project.url} target="_blank" rel="noopener noreferrer">

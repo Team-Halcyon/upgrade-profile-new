@@ -7,8 +7,8 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
 export async function enhanceResumeSummary(jobTitle, currentSummary) {
   try {
     const prompt = currentSummary
-      ? `Enhance the following professional summary for a ${jobTitle} position to make it more impactful, professional, and ATS-friendly. Focus on quantifiable achievements and industry-relevant skills: "${currentSummary}"`
-      : `Generate a professional, impactful summary for a ${jobTitle} position. Include relevant skills, experience level, and career goals. Make it ATS-friendly with industry-specific keywords.`
+      ? `Transform this professional summary for a ${jobTitle} position into a concise, powerful statement. Add quantifiable achievements, industry-specific keywords, and compelling language. Make it ATS-optimized. Use HTML-style bold formatting for key phrases by wrapping important terms with **asterisks** like this. Example: "**Experienced software engineer** with expertise in...": "${currentSummary}"`
+      : `Create a precise, powerful professional summary for a ${jobTitle}. Include specific, measurable achievements, core competencies, and industry-standard terminology. The summary must be exactly 3-4 sentences, ATS-optimized, and focused on career highlights. Use HTML-style bold formatting for key phrases by wrapping important terms with **asterisks** like this. Example: "**Experienced software engineer** with expertise in..."`
 
     const result = await model.generateContent(prompt)
     const response = await result.response
@@ -25,8 +25,8 @@ export async function enhanceResumeSummary(jobTitle, currentSummary) {
 export async function enhanceJobDescription(jobTitle, company, description) {
   try {
     const prompt = description
-      ? `Enhance the following job description for a ${jobTitle} position at ${company} to make it more impactful, professional, and ATS-friendly. Focus on quantifiable achievements and use bullet points: "${description}"`
-      : `Generate professional bullet points for a ${jobTitle} position at ${company}. Include responsibilities, achievements, and skills. Make it ATS-friendly with industry-specific keywords.`
+      ? `Rewrite this job description for a ${jobTitle} position at ${company} into powerful, achievement-focused bullet points. Use action verbs, include metrics, and incorporate industry-specific language. Each bullet must demonstrate concrete impact and be ATS-optimized. Use **asterisks** to bold important skills, metrics, and key achievements. Example: "• Implemented **machine learning algorithms** that improved accuracy by **45%**": "${description}"`
+      : `Create 5-7 powerful bullet points for a ${jobTitle} position at ${company}. Each bullet must: 1) Start with a strong action verb, 2) Include one measurable metric/achievement, 3) Demonstrate a specific job-relevant skill, and 4) Incorporate industry terminology. Use **asterisks** to bold important skills, metrics, and key achievements. Example: "• Implemented **machine learning algorithms** that improved accuracy by **45%**"`
 
     const result = await model.generateContent(prompt)
     const response = await result.response
@@ -42,13 +42,15 @@ export async function enhanceJobDescription(jobTitle, company, description) {
 
 export async function optimizeForJobDescription(resumeContent, jobDescription) {
   try {
-    const prompt = `Optimize the following resume content to better match this job description. Add relevant keywords, adjust phrasing, and highlight matching skills and experiences. Make it ATS-friendly.
+    const prompt = `Transform this resume content to perfectly align with the job description. Integrate exact keyword matches, restructure content to emphasize relevant experience, and reformat achievements to highlight direct qualification matches. The output must maintain the original format but be fully optimized for ATS systems.
     
     Resume Content:
     ${resumeContent}
     
     Job Description:
-    ${jobDescription}`
+    ${jobDescription}
+    
+    Provide only the optimized resume content without explanations or suggestions.`
 
     const result = await model.generateContent(prompt)
     const response = await result.response
@@ -61,28 +63,28 @@ export async function optimizeForJobDescription(resumeContent, jobDescription) {
 
 export async function extractResumeData(resumeText) {
   try {
-    const prompt = `You are an expert resume parser with the ability to accurately extract structured information from resumes.
-    
-    Parse the following resume text and extract ALL available information into a structured JSON format with these exact keys:
+    const prompt = `Extract precise, structured resume information from the text below. Format as JSON with these exact fields:
     - personalInfo: {fullName, jobTitle, email, phone, location, linkedin, website, github}
-    - summary: a concise professional summary
+    - summary: a single concise professional summary paragraph
     - experience: [{jobTitle, company, location, startDate, endDate, current, description, employmentType}]
     - education: [{degree, institution, location, startDate, endDate, current, description}]
-    - skills: [array of skill strings - be comprehensive and include ALL technical and soft skills mentioned]
+    - skills: [comprehensive array of ALL technical and soft skills]
     - certifications: [{name, issuer, date}]
     - languages: [{language, proficiency}]
     - projects: [{name, description, url}]
     
-    Pay special attention to:
-    1. Extract ALL dates in YYYY-MM format when possible
-    2. For current positions/education, set current: true
-    3. Include ALL skills mentioned, even those embedded in experience descriptions
-    4. Parse phone numbers in standard format with country code when available
-    5. Extract URLs from text for linkedin, github, website fields
-    6. Never leave fields as null - use empty strings or arrays instead
+    Requirements:
+    1. Format ALL dates as YYYY-MM
+    2. Mark current positions as current: true
+    3. Extract ALL skills including those in experience descriptions
+    4. Format phone with country code
+    5. Extract complete URLs
+    6. Use empty strings instead of null
     
     Resume Text:
-    ${resumeText}`
+    ${resumeText}
+    
+    Return ONLY valid, properly formatted JSON without explanations.`
 
     const result = await model.generateContent(prompt)
     const response = await result.response
@@ -161,22 +163,19 @@ function normalizeResumeData(data) {
 
 export async function atsOptimizeResume(resumeData, jobDescription) {
   try {
-    const prompt = `You are an expert ATS (Applicant Tracking System) optimization assistant.
+    const prompt = `Transform this resume data to precisely match the job description requirements. Follow these steps:
     
-    Below is a resume data object and a job description. Your task is to:
-    1. Analyze the job description for key skills, requirements, and keywords
-    2. Compare them with the resume content
-    3. Return an optimized version of the resume with:
-       - Skills reordered to prioritize those matching the job description
-       - Experience bullet points enhanced to highlight relevant achievements
-       - Summary rewritten to better align with the job requirements
-       - Additional relevant keywords naturally incorporated
+    1. Extract all key requirements, skills, and terminology from the job description
+    2. Reorder skills to place the most relevant ones first
+    3. Rewrite experience descriptions to highlight direct qualification matches
+    4. Rewrite summary to directly address the job requirements
+    5. Add critical industry keywords where appropriate
     
-    IMPORTANT: 
-    - Keep the same data structure in your response
-    - Maintain professional tone and factual accuracy
-    - Don't invent new experiences, just optimize existing ones
-    - Focus on making content ATS-friendly while remaining truthful
+    Rules:
+    - Maintain the exact JSON structure
+    - Keep factual information accurate
+    - Focus on emphasizing relevant existing experience
+    - Optimize for ATS keyword matching
     
     Resume Data:
     ${JSON.stringify(resumeData, null, 2)}
@@ -184,7 +183,7 @@ export async function atsOptimizeResume(resumeData, jobDescription) {
     Job Description:
     ${jobDescription}
     
-    Return the optimized resume data as a valid JSON object with the same structure.`
+    Return ONLY the optimized resume data as valid JSON.`
 
     const result = await model.generateContent(prompt)
     const response = await result.response
