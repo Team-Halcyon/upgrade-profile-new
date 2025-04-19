@@ -335,5 +335,88 @@
       justify-content: center;
     }
   }
+
+  .optimizationDescription {
+    margin-bottom: 1rem;
+    color: #555;
+    font-size: 0.95rem;
+  }
   
+  .jobDescriptionInput {
+    width: 100%;
+    border: 1px solid #e0e0f0;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-family: inherit;
+    margin-bottom: 1rem;
+    resize: vertical;
+    transition: border-color 0.2s ease;
+  }
   
+  .jobDescriptionInput:focus {
+    outline: none;
+    border-color: #4f6af6;
+  }
+  
+  .optimizeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #4f6af6;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease;
+  }
+  
+  .optimizeButton:hover:not(:disabled) {
+    background-color: #3a54d6;
+  }
+  
+  .optimizeButton:disabled {
+    background-color: #a0aae0;
+    cursor: not-allowed;
+  }
+  
+  .optimizationMessage {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #ecf4ff;
+    border-left: 4px solid #4f6af6;
+    color: #333;
+    font-size: 0.9rem;
+    border-radius: 4px;
+  }
+
+  .errorMessage {
+    background-color: #ffecec;
+    border-left: 4px solid #ff4d4f;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    color: #cc0000;
+    font-size: 0.95rem;
+    border-radius: 4px;
+  }
+  
+  .errorContainer {
+    text-align: center;
+    padding: 2rem;
+    background-color: #ffecec;
+    border-radius: 12px;
+    margin: 2rem 0;
+  }
+  
+  .loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+    gap: 1rem;
+  }
+

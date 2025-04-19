@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "@langchain/community": "^0.3.41",
+    "@langchain/openai": "^0.5.5",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.49.4",
     "axios": "^1.8.4",
@@ -17,12 +20,16 @@
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "framer-motion": "^12.6.3",
+    "html2canvas": "^1.4.1",
     "jsonwebtoken": "^9.0.2",
+    "jspdf": "^3.0.1",
     "jwt-decode": "^4.0.0",
+    "langchain": "^0.3.22",
     "lucide-react": "^0.487.0",
     "mysql2": "^3.14.0",
     "next": "15.2.4",
     "next-auth": "^4.24.11",
+    "pdf-parse": "^1.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0"

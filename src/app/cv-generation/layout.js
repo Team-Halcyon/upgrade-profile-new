@@ -1,7 +1,17 @@
-export default function CvGenerationLayout({ children }) {
+import { Inter } from "next/font/google"
+import "../globals.css"
+
+const inter = Inter({ subsets: ["latin"] })
+
+export const metadata = {
+  title: "AI Resume Enhancement",
+  description: "Create professional, ATS-optimized resumes with AI assistance",
+}
+
+export default function RootLayout({ children }) {
   return (
-    <div>
-      {children}
-    </div>
+    <html lang="en">
+      <body className={inter.className}>{children}</body>
+    </html>
   )
 }

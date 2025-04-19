@@ -1,0 +1,312 @@
+.classicTemplate {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 40px;
+    font-family: "Arial", sans-serif;
+    color: #333;
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    margin-bottom: 30px;
+    border-bottom: 2px solid #4f6af6;
+    padding-bottom: 20px;
+  }
+  
+  .name {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 5px;
+    color: #1a1a2e;
+  }
+  
+  .jobTitle {
+    font-size: 18px;
+    color: #4f6af6;
+    margin: 0 0 15px;
+  }
+  
+  .contactInfo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 14px;
+  }
+  
+  .contactItem {
+    margin: 0;
+  }
+  
+  .contactLabel {
+    font-weight: 600;
+  }
+  
+  .section {
+    margin-bottom: 25px;
+  }
+  
+  .sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin: 0 0 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e0e0f0;
+  }
+  
+  .summary {
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  
+  .experienceItem,
+  .educationItem {
+    margin-bottom: 20px;
+  }
+  
+  .experienceHeader,
+  .educationHeader {
+    margin-bottom: 10px;
+  }
+  
+  .experienceTitle,
+  .educationDegree {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 5px;
+    color: #1a1a2e;
+  }
+  
+  .experienceCompany,
+  .educationInstitution {
+    font-weight: 600;
+    margin: 0 0 3px;
+  }
+  
+  .experienceLocation,
+  .educationLocation {
+    font-style: italic;
+    margin: 0 0 3px;
+    color: #666;
+  }
+  
+  .experienceDates,
+  .educationDates {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 5px;
+  }
+  
+  .experienceDescription,
+  .educationDescription {
+    line-height: 1.5;
+  }
+  
+  .experienceDescription p,
+  .educationDescription p {
+    margin: 0 0 5px;
+  }
+  
+  .skillsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .skillItem {
+    background-color: #f8f9ff;
+    border: 1px solid #e0e0f0;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  
+  .languagesList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .languageItem {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  
+  .languageName {
+    font-weight: 600;
+  }
+  
+  .languageProficiency {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .certificationItem {
+    margin-bottom: 10px;
+  }
+  
+  .certificationName {
+    font-weight: 600;
+    margin: 0 0 3px;
+  }
+  
+  .certificationIssuer {
+    font-style: italic;
+    margin: 0 0 3px;
+  }
+  
+  .certificationDate {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .projectItem {
+    margin-bottom: 15px;
+  }
+  
+  .projectName {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 5px;
+    color: #1a1a2e;
+  }
+  
+  .projectDescription {
+    margin: 0 0 5px;
+    line-height: 1.5;
+  }
+  
+  .projectUrl {
+    font-size: 14px;
+  }
+  
+  .projectUrl a {
+    color: #4f6af6;
+    text-decoration: none;
+  }
+  
+  .projectUrl a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Modern Template Styles */
+  .modernTemplate {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 40px;
+    font-family: "Roboto", sans-serif;
+    color: #333;
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 30px;
+  }
+  
+  .modernSidebar {
+    background-color: #f8f9ff;
+    padding: 30px;
+    border-radius: 10px;
+  }
+  
+  .modernMain {
+    padding: 20px 0;
+  }
+  
+  .modernHeader {
+    margin-bottom: 30px;
+  }
+  
+  .modernName {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 5px;
+    color: #1a1a2e;
+  }
+  
+  .modernJobTitle {
+    font-size: 18px;
+    color: #4f6af6;
+    margin: 0 0 20px;
+  }
+  
+  .modernContactInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 14px;
+  }
+  
+  .modernContactItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+  }
+  
+  .modernSectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4f6af6;
+    margin: 0 0 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #4f6af6;
+  }
+  
+  /* Minimal Template Styles */
+  .minimalTemplate {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 40px;
+    font-family: "Inter", sans-serif;
+    color: #333;
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .minimalHeader {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .minimalName {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 5px;
+    color: #1a1a2e;
+  }
+  
+  .minimalJobTitle {
+    font-size: 18px;
+    color: #666;
+    margin: 0 0 15px;
+  }
+  
+  .minimalContactInfo {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 14px;
+  }
+  
+  .minimalSectionTitle {
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #1a1a2e;
+    margin: 0 0 15px;
+  }
+  
+  .minimalDivider {
+    height: 1px;
+    background-color: #e0e0f0;
+    margin: 10px 0 20px;
+  }
+  

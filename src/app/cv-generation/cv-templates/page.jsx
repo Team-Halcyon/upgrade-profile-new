@@ -1,256 +1,170 @@
-// "use client"
+"use client"
 
-// import Link from "next/link"
-// import Image from "next/image"
-// import { ChevronLeft, ChevronRight } from "lucide-react"
-// import { useSearchParams } from "next/navigation"
-// import styles from "./cv-templates.module.css"
+import { useState, Suspense } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { useRouter, useSearchParams } from "next/navigation"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { saveSelectedTemplate } from "@/app/actions/cv-actions"
+import styles from "./cv-templates.module.css"
 
-// const templates = [
-//   {
-//     id: "classic",
-//     name: "Classic Professional",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Clean and professional design suitable for most industries",
-//   },
-//   {
-//     id: "modern",
-//     name: "Modern Creative",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Contemporary design with a creative touch",
-//   },
-//   {
-//     id: "minimal",
-//     name: "Minimal Elegant",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Simple and elegant design focusing on content",
-//   },
-//   {
-//     id: "executive",
-//     name: "Executive Premium",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Sophisticated design for senior professionals",
-//   },
-//   {
-//     id: "tech",
-//     name: "Tech Innovator",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Modern design optimized for tech professionals",
-//   },
-//   {
-//     id: "creative",
-//     name: "Creative Portfolio",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Vibrant design for creative professionals",
-//   },
-// ]
+const templates = [
+  {
+    id: "classic",
+    name: "Classic Professional",
+    image: "/placeholder.svg?height=400&width=300",
+    description: "Clean and professional design suitable for most industries",
+  },
+  {
+    id: "modern",
+    name: "Modern Creative",
+    image: "/placeholder.svg?height=400&width=300",
+    description: "Contemporary design with a creative touch",
+  },
+  {
+    id: "minimal",
+    name: "Minimal Elegant",
+    image: "/placeholder.svg?height=400&width=300",
+    description: "Simple and elegant design focusing on content",
+  },
+  {
+    id: "executive",
+    name: "Executive Premium",
+    image: "/placeholder.svg?height=400&width=300",
+    description: "Sophisticated design for senior professionals",
+  },
+  {
+    id: "tech",
+    name: "Tech Innovator",
+    image: "/placeholder.svg?height=400&width=300",
+    description: "Modern design optimized for tech professionals",
+  },
+  {
+    id: "creative",
+    name: "Creative Portfolio",
+    image: "/placeholder.svg?height=400&width=300",
+    description: "Vibrant design for creative professionals",
+  },
+]
 
-// export default function TemplatesPage() {
-//   const searchParams = useSearchParams();
-//   const source = searchParams.get('source') || 'create'; // Default to 'create' if not specified
-  
-//   // Back button destination based on source
-//   const backDestination = source === 'upload' 
-//     ? '/cv-generation/create-cv' 
-//     : '/cv-generation/create-cv/additional';
-  
-//   // Always use "Back to Edit CV" label as per requirement
-//   const backLabel = "Back to Edit CV";
+// Component that uses useSearchParams
+function TemplatesContent() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const source = searchParams.get("source") || "create"
 
-//   return (
-//     <div className={styles.container}>
-//       <div className={styles.header}>
-//         <h1 className={styles.title}>Choose your preferred CV template</h1>
-//         <p className={styles.subtitle}>Select a professional template that best represents your personal brand</p>
-//       </div>
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
 
-//       <div className={styles.templateCarousel}>
-//         <button className={styles.carouselButton} aria-label="Previous templates">
-//           <ChevronLeft size={24} />
-//         </button>
+  const backDestination = source === "upload" ? "/cv-generation/create-cv" : "/cv-generation/create-cv/additional"
+  const backLabel = "Back to Edit CV"
 
-//         <div className={styles.templatesContainer}>
-//           {templates.map((template) => (
-//             <div key={template.id} className={styles.templateCard}>
-//               <div className={styles.templateImageContainer}>
-//                 <Image
-//                   src={template.image}
-//                   alt={template.name}
-//                   width={300}
-//                   height={400}
-//                   className={styles.templateImage}
-//                 />
-//               </div>
-//               <h3 className={styles.templateName}>{template.name}</h3>
-//               <p className={styles.templateDescription}>{template.description}</p>
-//               <Link 
-//                 href={`/cv-generation/preview-cv?template=${template.id}&source=${source}`} 
-//                 className={styles.selectButton}
-//               >
-//                 Select Template
-//               </Link>
-//             </div>
-//           ))}
-//         </div>
+  const handleSelectTemplate = async (templateId) => {
+    setIsLoading(true)
+    setError("")
 
-//         <button className={styles.carouselButton} aria-label="Next templates">
-//           <ChevronRight size={24} />
-//         </button>
-//       </div>
+    try {
+      const result = await saveSelectedTemplate(templateId)
 
-//       <div className={styles.pagination}>
-//         {templates.map((_, index) => (
-//           <button
-//             key={index}
-//             className={`${styles.paginationDot} ${index === 0 ? styles.activeDot : ""}`}
-//             aria-label={`Go to template ${index + 1}`}
-//           />
-//         ))}
-//       </div>
+      if (result.success) {
+        router.push(`/cv-generation/preview-cv?template=${templateId}&source=${source}`)
+      } else {
+        setError(result.error || "Failed to select template")
+      }
+    } catch (error) {
+      console.error("Error selecting template:", error)
+      setError("An unexpected error occurred")
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
-//       <div className={styles.actions}>
-//         <Link href={backDestination} className={styles.backButton}>
-//           {backLabel}
-//         </Link>
-//       </div>
-//     </div>
-//   )
-// }
-// "use client"
+  const handlePrevious = () => {
+    setActiveIndex((prev) => (prev === 0 ? templates.length - 1 : prev - 1))
+  }
 
-// import Link from "next/link"
-// import Image from "next/image"
-// import { ChevronLeft, ChevronRight } from "lucide-react"
-// import { useSearchParams } from "next/navigation"
-// import { Suspense } from "react"
-// import styles from "./cv-templates.module.css"
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev === templates.length - 1 ? 0 : prev + 1))
+  }
 
-// const templates = [
-//   {
-//     id: "classic",
-//     name: "Classic Professional",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Clean and professional design suitable for most industries",
-//   },
-//   {
-//     id: "modern",
-//     name: "Modern Creative",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Contemporary design with a creative touch",
-//   },
-//   {
-//     id: "minimal",
-//     name: "Minimal Elegant",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Simple and elegant design focusing on content",
-//   },
-//   {
-//     id: "executive",
-//     name: "Executive Premium",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Sophisticated design for senior professionals",
-//   },
-//   {
-//     id: "tech",
-//     name: "Tech Innovator",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Modern design optimized for tech professionals",
-//   },
-//   {
-//     id: "creative",
-//     name: "Creative Portfolio",
-//     image: "/placeholder.svg?height=400&width=300",
-//     description: "Vibrant design for creative professionals",
-//   },
-// ]
+  const handleDotClick = (index) => {
+    setActiveIndex(index)
+  }
 
-// function TemplatesPage() {
-//   const searchParams = useSearchParams()
-//   const source = searchParams.get("source") || "create" // Default to 'create' if not specified
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Choose your preferred CV template</h1>
+        <p className={styles.subtitle}>Select a professional template that best represents your personal brand</p>
+      </div>
 
-//   // Back button destination based on source
-//   const backDestination =
-//     source === "upload"
-//       ? "/cv-generation/create-cv"
-//       : "/cv-generation/create-cv/additional"
+      {error && <div className={styles.errorMessage}>{error}</div>}
 
-//   // Always use "Back to Edit CV" label as per requirement
-//   const backLabel = "Back to Edit CV"
+      <div className={styles.templateCarousel}>
+        <button className={styles.carouselButton} aria-label="Previous templates" onClick={handlePrevious}>
+          <ChevronLeft size={24} />
+        </button>
 
-//   return (
-//     <div className={styles.container}>
-//       <div className={styles.header}>
-//         <h1 className={styles.title}>Choose your preferred CV template</h1>
-//         <p className={styles.subtitle}>
-//           Select a professional template that best represents your personal
-//           brand
-//         </p>
-//       </div>
+        <div className={styles.templatesContainer}>
+          {templates.map((template) => (
+            <div
+              key={template.id}
+              className={styles.templateCard}
+              style={{ display: templates[activeIndex].id === template.id ? "flex" : "none" }}
+            >
+              <div className={styles.templateImageContainer}>
+                <Image
+                  src={template.image || "/placeholder.svg"}
+                  alt={template.name}
+                  width={300}
+                  height={400}
+                  className={styles.templateImage}
+                />
+              </div>
+              <h3 className={styles.templateName}>{template.name}</h3>
+              <p className={styles.templateDescription}>{template.description}</p>
+              <button
+                className={styles.selectButton}
+                onClick={() => handleSelectTemplate(template.id)}
+                disabled={isLoading}
+              >
+                {isLoading && templates[activeIndex].id === template.id ? "Selecting..." : "Select Template"}
+              </button>
+            </div>
+          ))}
+        </div>
 
-//       <div className={styles.templateCarousel}>
-//         <button className={styles.carouselButton} aria-label="Previous templates">
-//           <ChevronLeft size={24} />
-//         </button>
+        <button className={styles.carouselButton} aria-label="Next templates" onClick={handleNext}>
+          <ChevronRight size={24} />
+        </button>
+      </div>
 
-//         <div className={styles.templatesContainer}>
-//           {templates.map((template) => (
-//             <div key={template.id} className={styles.templateCard}>
-//               <div className={styles.templateImageContainer}>
-//                 <Image
-//                   src={template.image}
-//                   alt={template.name}
-//                   width={300}
-//                   height={400}
-//                   className={styles.templateImage}
-//                 />
-//               </div>
-//               <h3 className={styles.templateName}>{template.name}</h3>
-//               <p className={styles.templateDescription}>
-//                 {template.description}
-//               </p>
-//               <Link
-//                 href={`/cv-generation/preview-cv?template=${template.id}&source=${source}`}
-//                 className={styles.selectButton}
-//               >
-//                 Select Template
-//               </Link>
-//             </div>
-//           ))}
-//         </div>
+      <div className={styles.pagination}>
+        {templates.map((_, index) => (
+          <button
+            key={index}
+            className={`${styles.paginationDot} ${index === activeIndex ? styles.activeDot : ""}`}
+            aria-label={`Go to template ${index + 1}`}
+            onClick={() => handleDotClick(index)}
+          />
+        ))}
+      </div>
 
-//         <button className={styles.carouselButton} aria-label="Next templates">
-//           <ChevronRight size={24} />
-//         </button>
-//       </div>
+      <div className={styles.actions}>
+        <Link href={backDestination} className={styles.backButton}>
+          {backLabel}
+        </Link>
+      </div>
+    </div>
+  )
+}
 
-//       <div className={styles.pagination}>
-//         {templates.map((_, index) => (
-//           <button
-//             key={index}
-//             className={`${styles.paginationDot} ${
-//               index === 0 ? styles.activeDot : ""
-//             }`}
-//             aria-label={`Go to template ${index + 1}`}
-//           />
-//         ))}
-//       </div>
-
-//       <div className={styles.actions}>
-//         <Link href={backDestination} className={styles.backButton}>
-//           {backLabel}
-//         </Link>
-//       </div>
-//     </div>
-//   )
-// }
-
-// // Wrap the TemplatesPage in Suspense so that client hooks are not called during SSR.
-// export default function Page() {
-//   return (
-//     <Suspense fallback={<div>Loading...</div>}>
-//       <TemplatesPage />
-//     </Suspense>
-//   )
-// }
-
-
+// Main component with Suspense boundary
+export default function TemplatesPage() {
+  return (
+    <Suspense fallback={<div className={styles.loadingContainer}>Loading...</div>}>
+      <TemplatesContent />
+    </Suspense>
+  )
+}
