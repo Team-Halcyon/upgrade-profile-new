@@ -1,5 +1,12 @@
 from models import User
+from schemas import UserCreate
+from sqlalchemy.orm import Session
+
 from database import SessionLocal, engine
+
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def get_user_by_username(db:Session, username: str):
     return db.query(User).filter(User.username == username).first()
