@@ -17,8 +17,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def authenticate_user(username:str, password:str, db:Session):
-    user = db.query(User).filter(User.username == username).first()
+def authenticate_user(email:str, password:str, db:Session):
+    user = db.query(User).filter(User.email == email).first()
     if not user:
         return False
     if not pwd_context.verify(password, user.hashed_password):
@@ -38,8 +38,8 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 def verify_token(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+        email: str = payload.get("sub")
+        if email is None:
             raise HTTPException(status_code=403,detail="token is not valid or expired")
         return payload
     except JWTError:

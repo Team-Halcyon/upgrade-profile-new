@@ -1,47 +1,77 @@
 // lib/auth.js
 
+const API_BASE_URL = 'http://localhost:8000';
+
+
 // 🚀 Sign up
 export async function signUp(formData) {
   try {
-    const res = await fetch('http://localhost:4000/api/user/signUp', {
+    const response = await fetch(`${API_BASE_URL}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        fullName: formData.fullName,
+        username: formData.fullName,
         email: formData.email,
         password: formData.password,
       }),
     });
 
-    return await res.json();
+     const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: data.detail || 'Registration failed',
+      };
+    }
+
+    return {
+      success: true,
+      data: data,
+    };
   } catch (error) {
     console.error('Sign up error:', error);
-    return { success: false, message: 'Network error during sign up' };
+    return {
+      success: false,
+      message: 'Network error. Please try again.',
+    };
   }
 }
-
 // 🔐 Sign in
 export async function signIn(credentials) {
-  try {
-    const res = await fetch('http://localhost:4000/api/user/signIn', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: credentials.email,
-        password: credentials.password,
-      }),
-    });
+  const formData = new URLSearchParams();
+  formData.append('username', credentials.email); // not "email"
+  formData.append('password', credentials.password);
 
-    return await res.json();
-  } catch (error) {
-    console.error('Sign in error:', error);
-    return { success: false, message: 'Network error during sign in' };
+  const res = await fetch(`${API_BASE_URL}/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: formData.toString(),
+  });
+
+  const data = await res.json();
+  console.log("Login response:", data);
+  if (!res.ok) {
+    return {
+      success: false,
+      message: data.detail || 'Login failed',
+    };
   }
+  
+  localStorage.setItem('token', data.access_token);
+  localStorage.setItem('tokenType', data.token_type); // usually "bearer"
+
+  return {
+    success: true,
+    token: data.access_token,
+    tokenType: data.token_type,
+  };
 }
+
 
 // 🔁 Forgot Password
 export async function forgotPassword(email) {

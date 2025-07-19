@@ -13,7 +13,7 @@ def get_user_by_username(db:Session, username: str):
 
 def create_user(db:Session, user:UserCreate):
     hashed_password = pwd_context.hash(user.password)
-    db_user = User(username=user.username, hashed_password=hashed_password)
+    db_user = User(username=user.username, hashed_password=hashed_password,email=user.email)
     db.add(db_user)
     db.commit()
     return "complete"

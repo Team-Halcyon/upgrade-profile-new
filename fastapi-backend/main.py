@@ -11,8 +11,10 @@ from crud import get_user_by_username, create_user
 from services.auth import authenticate_user, create_access_token,ACCESS_TOKEN_EXPIRE_MINUTES
 
 app = FastAPI()
-
-origins = ["upbyhalcyon.netlify.app"]
+origins = [
+    "http://localhost:3000",
+    "https://upbyhalcyon.netlify.app"
+]
 
 app.add_middleware(
     CORSMiddleware,
@@ -45,11 +47,12 @@ def register_user(user:UserCreate,db:Session = Depends(get_db)):
 
 @app.post("/token")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    print(form_data.username, form_data.password)  # Debugging
     user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
+            detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
     

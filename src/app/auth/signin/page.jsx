@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../auth.module.css';
 import { useAuth } from '@/context/authContext';
+import { signIn } from '@/lib/auth'; 
 
 export default function SignInPage() {
   const { login } = useAuth(); 
@@ -30,34 +31,20 @@ export default function SignInPage() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:4000/api/user/signIn', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      if (!response.ok) {
-        const errData = await response.json();
-        console.log('Login failed:', errData); // Log actual error to console
-        throw new Error('Invalid email or password'); // Show user-friendly message
-      }
-      
-
-      const data = await response.json();
-      login(data.token);
-
-      // You can redirect to a protected route after login
-      router.push('../../'); // or `/adminHome/${formData.email}` if needed
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+          // Send the form data to your backend to create a user
+          const result = await signIn(formData);
+    
+          if (result.success) {
+            router.push('../../');
+          } else {
+            setError(result.message || 'Failed to signIn account. Please try again.');
+          }
+        } catch (err) {
+          setError('An error occurred. Please try again later.');
+          console.error('Log In error:', err);
+        } finally {
+          setIsLoading(false);
+        }
   };
 
   const handleSubmit = async (e) => {

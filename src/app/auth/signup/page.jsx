@@ -61,20 +61,26 @@ export default function SignUpPage() {
     }
   };
 
-  const handleOAuthSignUp = async (provider) => {
-    setIsLoading(true);
-    try {
-      // Implementation for OAuth sign-up (sending request to backend for OAuth)
-      await signUp({ provider });
-      router.push('/dashboard');
-    } catch (err) {
-      setError(`Failed to sign up with ${provider}`);
-      console.error(`${provider} sign up error:`, err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // const handleOAuthSignUp = async (provider) => {
+  //   setIsLoading(true);
+  //   try {
+  //     // Implementation for OAuth sign-up (sending request to backend for OAuth)
+  //     await signUp({ provider });
+  //     router.push('/dashboard');
+  //   } catch (err) {
+  //     setError(`Failed to sign up with ${provider}`);
+  //     console.error(`${provider} sign up error:`, err);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
+  const handleOAuthSignUp = async (provider) => {
+    // Since OAuth is not implemented in FastAPI backend yet
+    setError(`${provider} sign-up is not available yet. Please use email registration.`);
+  };  
+
+  
   return (
     <div className={styles.container}>
       <div className={styles.contentWrapper}>
