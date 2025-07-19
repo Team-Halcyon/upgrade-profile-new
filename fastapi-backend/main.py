@@ -7,7 +7,8 @@ from database import SessionLocal, engine
 from fastapi.middleware.cors import CORSMiddleware  
 
 from schemas import UserCreate
-from crud import get_user_by_username, create_user, authenticate_user,create_access_token, verify_token 
+from crud import get_user_by_username, create_user
+from services.auth import authenticate_user, create_access_token,ACCESS_TOKEN_EXPIRE_MINUTES
 
 app = FastAPI()
 
@@ -21,6 +22,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+
+
 def get_db():
     db = SessionLocal()
     try:
@@ -29,9 +32,7 @@ def get_db():
         db.close()
         
 
-SECRET_KEY = "secret_key"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
 
 @app.post("/register")
 def register_user(user:UserCreate,db:Session = Depends(get_db)):
@@ -59,3 +60,6 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     
     return {"access_token": access_token, "token_type": "bearer"}
 
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)

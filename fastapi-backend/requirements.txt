@@ -6,3 +6,5 @@ python-jose
 sqlalchemy 
 uvicorn
 passlib
+python-dotenv
+psycopg2-binary
