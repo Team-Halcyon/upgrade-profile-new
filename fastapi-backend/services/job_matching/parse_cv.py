@@ -1,18 +1,20 @@
 from dotenv import load_dotenv
+from pathlib import Path
 
 load_dotenv()
 import base64
 import os
 import io
+import re
 from PIL import Image 
 import pdf2image
 import google.generativeai as genai
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-def get_gemini_response(input,pdf_content,prompt):
-    model=genai.GenerativeModel('gemini-pro-vision')
-    response=model.generate_content([input,pdf_content[0],prompt])
+def get_gemini_response(prompt,pdf_content):
+    model=genai.GenerativeModel('gemini-1.5-flash')
+    response=model.generate_content([prompt,pdf_content[0]])
     return response.text
 
 def input_pdf_setup(uploaded_file):
@@ -21,6 +23,7 @@ def input_pdf_setup(uploaded_file):
         images=pdf2image.convert_from_bytes(uploaded_file.read())
 
         first_page=images[0]
+        # Only first page is considered, since we need to generate the search ohrases and for that using the first page is enough 
 
         # Convert to bytes
         img_byte_arr = io.BytesIO()
@@ -64,7 +67,7 @@ def return_search_phrases(uploaded_file):
     if uploaded_file is not None:
         try:
             pdf_content = input_pdf_setup(uploaded_file)
-            raw_response = get_gemini_response(input_prompt_keywords, pdf_content, "")
+            raw_response = get_gemini_response(input_prompt_keywords, pdf_content)
             
             # Try to parse the response as a Python list
             try:
@@ -100,3 +103,70 @@ def return_search_phrases(uploaded_file):
 
 
 
+# import ast  # Add this import at the top with other imports
+
+# # ...existing code...
+
+# def test_cv_parsing():
+#     """Test CV parsing with a local PDF file"""
+    
+    
+#     print("=== Testing CV Parser ===")
+    
+#     # Look for PDF files in current directory
+#     current_dir = Path(".")
+#     pdf_files = list(current_dir.glob("*.pdf"))
+    
+#     if not pdf_files:
+#         print("No PDF files found in current directory!")
+#         return
+    
+#     print("Found PDF files:")
+#     for i, pdf_file in enumerate(pdf_files, 1):
+#         print(f"{i}. {pdf_file.name}")
+    
+#     # Let user select or use first one
+#     if len(pdf_files) == 1:
+#         selected_file = pdf_files[0]
+#         print(f"\nUsing: {selected_file.name}")
+#     else:
+#         try:
+#             choice = int(input(f"\nSelect file (1-{len(pdf_files)}): ")) - 1
+#             selected_file = pdf_files[choice]
+#         except (ValueError, IndexError):
+#             selected_file = pdf_files[0]
+#             print(f"Using first file: {selected_file.name}")
+    
+#     # Create mock uploaded file object
+#     class MockUploadedFile:
+#         def __init__(self, file_path):
+#             self.file_path = file_path
+        
+#         def read(self):
+#             with open(self.file_path, 'rb') as f:
+#                 return f.read()
+    
+#     try:
+#         print(f"\n Processing {selected_file.name}...")
+#         mock_file = MockUploadedFile(selected_file)
+        
+#         # Parse the CV
+#         search_phrases = return_search_phrases(mock_file)
+        
+#         print(f"\nSuccessfully extracted {len(search_phrases)} search phrases:")
+#         print("=" * 60)
+        
+#         for i, phrase in enumerate(search_phrases, 1):
+#             print(f"{i:2d}. '{phrase}'")
+        
+#         print("=" * 60)
+#         print(f"\nThese phrases can be used for job searching on RemoteOK and other platforms.")
+        
+#         return search_phrases
+        
+#     except Exception as e:
+#         print(f" Error processing CV: {e}")
+#         return []
+
+# if __name__ == "__main__":
+#     test_cv_parsing()
