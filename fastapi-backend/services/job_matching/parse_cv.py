@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from pathlib import Path
-
+import ast 
 load_dotenv()
 import base64
 import os
@@ -62,11 +62,13 @@ Do not include any explanations, just the list of search phrases that can be dir
 """
 
 
-def return_search_phrases(uploaded_file): 
+async def return_search_phrases(uploaded_file): 
     """Extract job search phrases from uploaded CV for RemoteOK platform"""
     if uploaded_file is not None:
         try:
-            pdf_content = input_pdf_setup(uploaded_file)
+            file_bytes = await uploaded_file.read() 
+            #pdf_content = input_pdf_setup(uploaded_file)
+            pdf_content = input_pdf_setup(io.BytesIO(file_bytes))
             raw_response = get_gemini_response(input_prompt_keywords, pdf_content)
             
             # Try to parse the response as a Python list
