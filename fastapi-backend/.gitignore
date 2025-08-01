@@ -3,3 +3,9 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
+
+
+# Vector Database
+vector_db/
+*.db
+*.sqlite3

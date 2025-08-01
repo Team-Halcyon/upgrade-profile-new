@@ -1,7 +1,17 @@
 import requests
 import time
+import logging
+from typing import List, Dict, Any
+import sys
+import os
 
-def fetch_and_filter_jobs(keywords):
+# Add the parent directory to the path to import embeddings service
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from vector_db.embeddings_service import EmbeddingsService
+
+logger = logging.getLogger(__name__)
+
+def fetch_and_filter_jobs(keywords, store_in_vector_db=True):
     """
     Fetch all job listings from RemoteOK and filter by a list of search phrases.
 
@@ -46,11 +56,67 @@ def fetch_and_filter_jobs(keywords):
         if any(k in position or k in tags or k in description for k in keywords):
             filtered_jobs.append(job)
             seen_ids.add(job_id)
+        logger.info(f"Filtered {len(filtered_jobs)} jobs from {len(jobs)} total jobs")
+
+    # Store in vector database if requested
+    if store_in_vector_db and filtered_jobs:
+        try:
+            store_jobs_in_vector_db(filtered_jobs)
+        except Exception as e:
+            logger.error(f"Error storing jobs in vector database: {e}")
+            # Continue without failing the entire operation
+
 
     return filtered_jobs
 
 
+def store_jobs_in_vector_db(jobs: List[Dict[str, Any]]) -> bool:
+    """
+    Store filtered jobs in vector database as embeddings.
+    
+    Args:
+        jobs (List[Dict[str, Any]]): List of job dictionaries to store
+        
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Initialize embeddings service
+        embeddings_service = EmbeddingsService()
+        
+        logger.info(f"Storing {len(jobs)} jobs in vector database...")
+        
+        # Store job embeddings
+        success = embeddings_service.store_job_embeddings(jobs)
+        
+        if success:
+            logger.info(f"Successfully stored {len(jobs)} job embeddings")
+        else:
+            logger.warning("Failed to store some job embeddings")
+            
+        return success
+        
+    except Exception as e:
+        logger.error(f"Error in store_jobs_in_vector_db: {e}")
+        return False
 
+def get_vector_db_stats() -> Dict[str, Any]:
+    """
+    Get statistics about the vector database.
+    
+    Returns:
+        Dict[str, Any]: Statistics including job and CV counts
+    """
+    try:
+        embeddings_service = EmbeddingsService()
+        stats = embeddings_service.get_collection_stats()
+        
+        logger.info(f"Vector DB Stats: {stats}")
+        return stats
+        
+    except Exception as e:
+        logger.error(f"Error getting vector DB stats: {e}")
+        return {"cv_embeddings": 0, "job_embeddings": 0, "error": str(e)}
 # import requests
 # import time
 

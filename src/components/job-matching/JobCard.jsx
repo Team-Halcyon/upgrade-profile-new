@@ -1,53 +1,3 @@
-// import styles from "./JobCard.module.css"
-// import Link from 'next/link'
-
-// export default function JobCard({ job }) {
-//   const { id, title, company, location, salaryRange, jobType, matchScore } = job
-
-//   return (
-//     <div className={styles.card}>
-//       <div className={styles.content}>
-//         <div className={styles.header}>
-//           <h3 className={styles.title}>{title}</h3>
-//           <div className={`${styles.badge} ${styles[jobType.toLowerCase().replace("-", "")]}`}>{jobType}</div>
-//         </div>
-
-//         <div className={styles.details}>
-//           <div className={styles.detailItem}>
-//             <span className={styles.label}>Company Name:</span>
-//             <span className={styles.value}>{company}</span>
-//           </div>
-//           <div className={styles.detailItem}>
-//             <span className={styles.label}>Location:</span>
-//             <span className={styles.value}>{location}</span>
-//           </div>
-//           <div className={styles.detailItem}>
-//             <span className={styles.label}>Salary Range:</span>
-//             <span className={styles.value}>{salaryRange}</span>
-//           </div>
-//         </div>
-
-//         <div className={styles.footer}>
-//           <div className={styles.matchScore}>
-//             <div className={styles.scoreLabel}>Match Score</div>
-//             <div className={styles.scoreValue}>{matchScore}%</div>
-//             <div className={styles.scoreBar}>
-//               <div className={styles.scoreProgress} style={{ width: `${matchScore}%` }}></div>
-//             </div>
-//           </div>
-
-//           <div className={styles.actions}>
-//             <Link href={`/job-matching/job-details/${id}`}>
-//               <button className={styles.viewButton}>View Details</button>
-//             </Link>
-//             <button className={styles.applyButton}>Quick Apply</button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
-"use client"
 import styles from "./JobCard.module.css"
 
 export default function JobCard({ job }) {
@@ -77,11 +27,19 @@ export default function JobCard({ job }) {
   // Clean HTML from description
   const cleanDescription = (html) => {
     if (!html) return ""
-    // Remove HTML tags and decode entities
     const cleaned = html.replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, ' ')
-    // Truncate to reasonable length
     return cleaned.length > 200 ? cleaned.substring(0, 200) + '...' : cleaned
   }
+
+  // Get match score color based on percentage
+  const getMatchScoreColor = (score) => {
+    if (score >= 80) return '#2d8c2d' // Green
+    if (score >= 60) return '#f57c00' // Orange
+    if (score >= 40) return '#ff9800' // Amber
+    return '#d32f2f' // Red
+  }
+
+  const matchScore = job.match_score || 0
 
   return (
     <div className={styles.card}>
@@ -103,12 +61,12 @@ export default function JobCard({ job }) {
           </div>
         </div>
         
-        {job.matchScore && (
-          <div className={styles.matchScore}>
-            <span className={styles.score}>{job.matchScore}%</span>
-            <div className={styles.matchLabel}>Match</div>
-          </div>
-        )}
+        <div className={styles.matchScore} style={{ backgroundColor: `${getMatchScoreColor(matchScore)}15` }}>
+          <span className={styles.score} style={{ color: getMatchScoreColor(matchScore) }}>
+            {matchScore}%
+          </span>
+          <div className={styles.matchLabel}>Match</div>
+        </div>
       </div>
 
       <div className={styles.details}>
