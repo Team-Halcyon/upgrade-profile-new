@@ -7,7 +7,7 @@ from database import SessionLocal, engine
 from fastapi.middleware.cors import CORSMiddleware  
 from fastapi.responses import JSONResponse
 import logging
-
+import io
 from schemas import UserCreate
 from crud import get_user_by_username, create_user
 from services.auth import authenticate_user, create_access_token,ACCESS_TOKEN_EXPIRE_MINUTES
@@ -97,6 +97,7 @@ async def match_jobs_from_cv(file: UploadFile = File(...)) -> JSONResponse:
         cv_id = str(uuid.uuid4())
         logger.info(f"📄 Processing uploaded CV: {file.filename}")
         
+        file = await file.read()
         # Step 1: Parse CV and extract search phrases
         logger.info("🔍 Extracting search phrases from CV...")
         search_phrases = await return_search_phrases(file)
@@ -116,6 +117,7 @@ async def match_jobs_from_cv(file: UploadFile = File(...)) -> JSONResponse:
         logger.info(f"✅ Extracted {len(search_phrases)} search phrases: {search_phrases}")
         # Step 2: Create CV text for embedding (combine search phrases)
         #cv_text = " ".join(search_phrases)
+        
         cv_text =  await extract_text_from_pdf_pypdf2(file)
         
         # Store CV embedding

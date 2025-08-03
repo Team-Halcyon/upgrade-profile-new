@@ -80,7 +80,8 @@ async def return_search_phrases(uploaded_file):
     """Extract job search phrases from uploaded CV for RemoteOK platform"""
     if uploaded_file is not None:
         try:
-            file_bytes = await uploaded_file.read() 
+            file_bytes = uploaded_file
+            #file_bytes = await uploaded_file.read() 
             #pdf_content = input_pdf_setup(uploaded_file)
             pdf_content = input_pdf_setup(io.BytesIO(file_bytes))
             raw_response = get_gemini_response(input_prompt_keywords, pdf_content)
