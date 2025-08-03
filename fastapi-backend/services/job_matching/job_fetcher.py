@@ -50,10 +50,10 @@ def fetch_and_filter_jobs(keywords, store_in_vector_db=True):
 
         # Check if any keyword is in the position, tags, or description
         position = job.get("position", "").lower()
-        tags = " ".join(job.get("tags", [])).lower()
-        description = job.get("description", "").lower()
+        # tags = " ".join(job.get("tags", [])).lower()
+        # description = job.get("description", "").lower()
 
-        if any(k in position or k in tags or k in description for k in keywords):
+        if any(k in position  for k in keywords):
             filtered_jobs.append(job)
             seen_ids.add(job_id)
         logger.info(f"Filtered {len(filtered_jobs)} jobs from {len(jobs)} total jobs")

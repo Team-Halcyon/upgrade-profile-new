@@ -13,7 +13,7 @@ from crud import get_user_by_username, create_user
 from services.auth import authenticate_user, create_access_token,ACCESS_TOKEN_EXPIRE_MINUTES
 
 # Import our custom modules
-from services.job_matching.parse_cv import return_search_phrases
+from services.job_matching.parse_cv import return_search_phrases,extract_text_from_pdf_pypdf2
 from services.job_matching.job_fetcher import fetch_and_filter_jobs
 import uuid
 from services.vector_db_service.embeddings_service import EmbeddingsService
@@ -115,7 +115,8 @@ async def match_jobs_from_cv(file: UploadFile = File(...)) -> JSONResponse:
         
         logger.info(f"✅ Extracted {len(search_phrases)} search phrases: {search_phrases}")
         # Step 2: Create CV text for embedding (combine search phrases)
-        cv_text = " ".join(search_phrases)
+        #cv_text = " ".join(search_phrases)
+        cv_text =  await extract_text_from_pdf_pypdf2(file)
         
         # Store CV embedding
         logger.info("💾 Storing CV embedding in vector database...")
@@ -144,7 +145,7 @@ async def match_jobs_from_cv(file: UploadFile = File(...)) -> JSONResponse:
         logger.info("🔢 Calculating similarity scores...")
         job_ids = [str(job.get('id', job.get('slug', ''))) for job in matching_jobs if job.get('id') or job.get('slug')]
         similarity_scores = embeddings_service.calculate_similarity_scores(cv_id, job_ids)
-        
+        logger.info(f"Similarity scores{similarity_scores}")
         # Step 5: Add similarity scores to jobs
         jobs_with_scores = []
         for job in matching_jobs:
@@ -161,6 +162,7 @@ async def match_jobs_from_cv(file: UploadFile = File(...)) -> JSONResponse:
         jobs_with_scores.sort(key=lambda x: x.get('match_score', 0), reverse=True)
         
         logger.info(f"✅ Added similarity scores to {len(jobs_with_scores)} jobs")
+        
         
         # Step 6: Return results
         return JSONResponse(

@@ -44,7 +44,8 @@ class EmbeddingsService:
     def generate_embedding(self, text: str) -> List[float]:
         """Generate embedding for given text"""
         try:
-            cleaned_text = self.clean_text(text)
+            #cleaned_text = self.clean_text(text)
+            cleaned_text = text
             if not cleaned_text:
                 logger.warning("Empty text provided for embedding")
                 return [0.0] * 384  # Return zero vector for empty text
@@ -166,7 +167,7 @@ class EmbeddingsService:
                 include=['embeddings']
             )
             
-            if not cv_results['embeddings']:
+            if len(cv_results['embeddings']) == 0:
                 logger.warning(f"CV embedding not found for ID: {cv_id}")
                 return {}
             
@@ -191,7 +192,8 @@ class EmbeddingsService:
                     similarity_percentage = max(0, min(100, int(similarity * 100)))
                     
                     similarity_scores[job_id] = similarity_percentage
-            
+            print("CV embedding:", cv_embedding)
+            print("Job embeddings:", job_results)
             return similarity_scores
             
         except Exception as e:

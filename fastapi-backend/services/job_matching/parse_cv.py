@@ -10,6 +10,11 @@ from PIL import Image
 import pdf2image
 import google.generativeai as genai
 
+import PyPDF2
+import io
+from typing import Optional
+
+
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def get_gemini_response(prompt,pdf_content):
@@ -43,22 +48,31 @@ def input_pdf_setup(uploaded_file):
 
 
 input_prompt_keywords = """
-You are an expert career advisor and job search specialist. Analyze this resume/CV and extract the most relevant search keywords and phrases that should be used in job search platforms like RemoteOK, Indeed, or LinkedIn Jobs.
+You are an expert career advisor and HR specialist. Analyze this resume/CV and identify the most suitable job positions/titles that this candidate would be qualified for based on their skills, experience, and qualifications.
 
-Based on the candidate's skills, experience, job titles, and qualifications shown in this resume, generate a list of effective job search phrases that would help find the most suitable remote job opportunities.
+Based on the candidate's background shown in this resume, generate a list of specific job titles/positions that they should apply for on job platforms like RemoteOK, Indeed, or LinkedIn Jobs.
 
 Instructions:
-1. Focus on technical skills, programming languages, frameworks, and tools mentioned
-2. Include relevant job titles and role variations
-3. Consider experience level (junior, senior, lead, etc.)
-4. Include industry-specific terms and methodologies
-5. Add both specific technologies and broader categories
-6. Consider remote work keywords where applicable
+1. Focus on the candidate's actual skills, experience level, and expertise
+2. Include variations of job titles (e.g., "Software Engineer", "Backend Developer", "Full Stack Developer")
+3. Consider their seniority level (Junior, Mid-level, Senior, Lead, etc.)
+4. Include both general and specific role titles
+5. Focus on positions that match their technical stack and experience
+6. Limit to 10-15 most relevant positions
 
-Return ONLY a Python list format with search phrases, like this:
-["search phrase 1", "search phrase 2", "search phrase 3", ...]
+Examples of good job titles:
+- "Software Engineer"
+- "Frontend Developer" 
+- "Java Developer"
+- "Senior Python Developer"
+- "Full Stack Engineer"
+- "Data Scientist"
+- "DevOps Engineer"
 
-Do not include any explanations, just the list of search phrases that can be directly used in job search platforms.
+Return ONLY a Python list format with job positions/titles, like this:
+["job title 1", "job title 2", "job title 3", ...]
+
+Do not include any explanations, just the list of job titles that this candidate should search for and apply to.
 """
 
 
@@ -104,71 +118,72 @@ async def return_search_phrases(uploaded_file):
         return []
 
 
-
-# import ast  # Add this import at the top with other imports
-
-# # ...existing code...
-
-# def test_cv_parsing():
-#     """Test CV parsing with a local PDF file"""
+async def extract_text_from_pdf_pypdf2(uploaded_file) -> str:
+    """
+    Extract text from PDF using PyPDF2
     
-    
-#     print("=== Testing CV Parser ===")
-    
-#     # Look for PDF files in current directory
-#     current_dir = Path(".")
-#     pdf_files = list(current_dir.glob("*.pdf"))
-    
-#     if not pdf_files:
-#         print("No PDF files found in current directory!")
-#         return
-    
-#     print("Found PDF files:")
-#     for i, pdf_file in enumerate(pdf_files, 1):
-#         print(f"{i}. {pdf_file.name}")
-    
-#     # Let user select or use first one
-#     if len(pdf_files) == 1:
-#         selected_file = pdf_files[0]
-#         print(f"\nUsing: {selected_file.name}")
-#     else:
-#         try:
-#             choice = int(input(f"\nSelect file (1-{len(pdf_files)}): ")) - 1
-#             selected_file = pdf_files[choice]
-#         except (ValueError, IndexError):
-#             selected_file = pdf_files[0]
-#             print(f"Using first file: {selected_file.name}")
-    
-#     # Create mock uploaded file object
-#     class MockUploadedFile:
-#         def __init__(self, file_path):
-#             self.file_path = file_path
+    Args:
+        uploaded_file: FastAPI UploadFile object or file-like object
         
-#         def read(self):
-#             with open(self.file_path, 'rb') as f:
-#                 return f.read()
-    
+    Returns:
+        str: Extracted text from all pages
+    """
+    try:
+        # Handle different input types
+        if hasattr(uploaded_file, 'read'):
+            # FastAPI UploadFile or file-like object
+            pdf_bytes = await uploaded_file.read()
+            if hasattr(uploaded_file, 'seek'):
+                await uploaded_file.seek(0)  # Reset file pointer
+        else:
+            # Assume it's already bytes
+            pdf_bytes = uploaded_file
+        
+        # Create a BytesIO object
+        pdf_file = io.BytesIO(pdf_bytes)
+        
+        # Create PDF reader
+        pdf_reader = PyPDF2.PdfReader(pdf_file)
+        
+        # Extract text from all pages
+        text = ""
+        for page_num in range(len(pdf_reader.pages)):
+            page = pdf_reader.pages[page_num]
+            text += page.extract_text() + "\n"
+        
+        # Clean up the text
+        text = text.strip()
+        print(text)
+        if not text:
+            print("Warning: No text extracted from PDF")
+            return ""
+        
+        print(f"DEBUG: Extracted {len(text)} characters from PDF")
+        return text
+        
+    except Exception as e:
+        print(f"Error extracting text from PDF: {e}")
+        return ""
+
+
+# import asyncio
+# # ---------- Main test driver ----------
+# async def test_pdf_extraction():
 #     try:
-#         print(f"\n Processing {selected_file.name}...")
-#         mock_file = MockUploadedFile(selected_file)
-        
-#         # Parse the CV
-#         search_phrases = return_search_phrases(mock_file)
-        
-#         print(f"\nSuccessfully extracted {len(search_phrases)} search phrases:")
-#         print("=" * 60)
-        
-#         for i, phrase in enumerate(search_phrases, 1):
-#             print(f"{i:2d}. '{phrase}'")
-        
-#         print("=" * 60)
-#         print(f"\nThese phrases can be used for job searching on RemoteOK and other platforms.")
-        
-#         return search_phrases
-        
-#     except Exception as e:
-#         print(f" Error processing CV: {e}")
-#         return []
+#         # Load sample PDF file
+#         with open("CV_Modified.pdf", "rb") as f:
+#             file_bytes = f.read()
 
+#         print("🔍 Extracting text from 'sample.pdf'...\n")
+#         extracted_text = await extract_text_from_pdf_pypdf2(file_bytes)
+
+#         print("\n📄 Extracted Text:\n" + "-" * 40)
+#         print(extracted_text)
+#         print("-" * 40)
+
+#     except FileNotFoundError:
+#         print("❌ Error: 'sample.pdf' not found. Place a PDF file named 'sample.pdf' in the same directory.")
+
+# # ---------- Entry point ----------
 # if __name__ == "__main__":
-#     test_cv_parsing()
+#     asyncio.run(test_pdf_extraction())
