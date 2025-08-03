@@ -16,7 +16,7 @@ from services.auth import authenticate_user, create_access_token,ACCESS_TOKEN_EX
 from services.job_matching.parse_cv import return_search_phrases
 from services.job_matching.job_fetcher import fetch_and_filter_jobs
 import uuid
-from services.vector_db.embeddings_service import EmbeddingsService
+from services.vector_db_service.embeddings_service import EmbeddingsService
 
 # Initialize embeddings service
 embeddings_service = EmbeddingsService()

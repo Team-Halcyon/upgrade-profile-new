@@ -7,7 +7,7 @@ import os
 
 # Add the parent directory to the path to import embeddings service
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from vector_db.embeddings_service import EmbeddingsService
+from vector_db_service.embeddings_service import EmbeddingsService
 
 logger = logging.getLogger(__name__)
 
