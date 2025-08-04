@@ -1,24 +1,18 @@
 // lib/auth.js
-
 const API_BASE_URL = 'http://localhost:8000';
 
-
-// 🚀 Sign up
 export async function signUp(formData) {
   try {
+    if (!(formData instanceof FormData)) {
+      throw new Error('Expected FormData for file upload');
+    }
+
     const response = await fetch(`${API_BASE_URL}/register`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: formData.fullName,
-        email: formData.email,
-        password: formData.password,
-      }),
+      body: formData, // Let browser set multipart/form-data headers
     });
 
-     const data = await response.json();
+    const data = await response.json();
 
     if (!response.ok) {
       return {
@@ -39,6 +33,7 @@ export async function signUp(formData) {
     };
   }
 }
+
 // 🔐 Sign in
 export async function signIn(credentials) {
   const formData = new URLSearchParams();
@@ -62,9 +57,7 @@ export async function signIn(credentials) {
     };
   }
   
-  localStorage.setItem('token', data.access_token);
-  localStorage.setItem('tokenType', data.token_type); // usually "bearer"
-
+  
   return {
     success: true,
     token: data.access_token,
