@@ -62,9 +62,7 @@ export async function signIn(credentials) {
     };
   }
   
-  localStorage.setItem('token', data.access_token);
-  localStorage.setItem('tokenType', data.token_type); // usually "bearer"
-
+  
   return {
     success: true,
     token: data.access_token,
