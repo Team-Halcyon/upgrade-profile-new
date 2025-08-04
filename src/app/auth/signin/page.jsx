@@ -34,7 +34,8 @@ export default function SignInPage() {
           // Send the form data to your backend to create a user
           const result = await signIn(formData);
     
-          if (result.success) {
+      if (result.success) {
+            login(result.token);
             router.push('../../');
           } else {
             setError(result.message || 'Failed to signIn account. Please try again.');

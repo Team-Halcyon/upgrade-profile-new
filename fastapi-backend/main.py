@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File
+from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File,Form
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
@@ -17,6 +17,8 @@ from services.job_matching.parse_cv import return_search_phrases,extract_text_fr
 from services.job_matching.job_fetcher import fetch_and_filter_jobs
 import uuid
 from services.vector_db_service.embeddings_service import EmbeddingsService
+from database import supabase
+from database import SUPABASE_PROJECT_URL
 
 # Initialize embeddings service
 embeddings_service = EmbeddingsService()
@@ -49,15 +51,54 @@ def get_db():
         
 
 
-
 @app.post("/register")
-def register_user(user:UserCreate,db:Session = Depends(get_db)):
-    db_user = get_user_by_username(db, user.username)
+async def register_user(
+    fullName: str = Form(...),
+    username: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+    interestedJobRoles: str = Form(...),
+    profilePicture: UploadFile = File(None),
+    cvFile: UploadFile = File(None),
+    db: Session = Depends(get_db)
+):
+    # ✅ Check if username exists
+    db_user = get_user_by_username(db, username)
     if db_user:
         raise HTTPException(status_code=400, detail="Username already exists")
-    
-    
-    return create_user(db=db, user=user)
+
+    # ✅ Upload files to Supabase
+    profile_pic_url = None
+    cv_url = None
+
+    try:
+        if profilePicture:
+            profile_bytes = await profilePicture.read()
+            profile_name = f"profile_pics/{uuid.uuid4()}_{profilePicture.filename}"
+            supabase.storage.from_("user-dps").upload(profile_name, profile_bytes)
+            profile_pic_url = f"{SUPABASE_PROJECT_URL}/storage/v1/object/public/user-dps/{profile_name}"
+
+        if cvFile:
+            cv_bytes = await cvFile.read()
+            cv_name = f"cv_files/{uuid.uuid4()}_{cvFile.filename}"
+            supabase.storage.from_("user-cvs").upload(cv_name, cv_bytes)
+            cv_url = f"{SUPABASE_PROJECT_URL}/storage/v1/object/public/user-cvs/{cv_name}"
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to upload files: {str(e)}")
+
+    # ✅ Create user using modified UserCreate model
+    user_data = UserCreate(
+        fullName=fullName,
+        username=username,
+        email=email,
+        password=password,
+        interestedJobRoles=interestedJobRoles,
+        profile_picture_url=profile_pic_url,
+        cv_url=cv_url
+    )
+
+    return create_user(db=db, user=user_data)
 
 @app.post("/token")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):

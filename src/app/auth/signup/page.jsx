@@ -11,18 +11,23 @@ export default function SignUpPage() {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
+    username: '',
     password: '',
     confirmPassword: '',
     agreeToTerms: false,
+    profilePicture: null,
+    cvFile: null,
+    interestedJobRoles: ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : 
+               type === 'file' ? files[0] : value,
     });
   };
 
@@ -43,10 +48,39 @@ export default function SignUpPage() {
       setIsLoading(false);
       return;
     }
+    // File validation
+    if (formData.cvFile && formData.cvFile.type !== 'application/pdf') {
+      setError('CV must be a PDF file');
+      setIsLoading(false);
+      return;
+    }
+
+    if (formData.profilePicture && !formData.profilePicture.type.startsWith('image/')) {
+      setError('Profile picture must be an image file');
+      setIsLoading(false);
+      return;
+    }
+
+
 
     try {
-      // Send the form data to your backend to create a user
-      const result = await signUp(formData);
+      // Create FormData for file upload
+      const submitData = new FormData();
+      submitData.append('fullName', formData.fullName);
+      submitData.append('email', formData.email);
+      submitData.append('username', formData.username);
+      submitData.append('password', formData.password);
+      submitData.append('interestedJobRoles', formData.interestedJobRoles);
+      
+      if (formData.profilePicture) {
+        submitData.append('profilePicture', formData.profilePicture);
+      }
+      
+      if (formData.cvFile) {
+        submitData.append('cvFile', formData.cvFile);
+      }
+
+      const result = await signUp(submitData);
 
       if (result.success) {
         router.push('../../');
@@ -114,6 +148,18 @@ export default function SignUpPage() {
                   className={styles.input}
                 />
               </div>
+
+              <div className={styles.inputGroup}>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username "
+                  value={formData.username}
+                  onChange={handleChange}
+                  required
+                  className={styles.input}
+                />
+              </div>
               
               <div className={styles.inputGroup}>
                 <input
@@ -148,6 +194,54 @@ export default function SignUpPage() {
                   onChange={handleChange}
                   required
                   className={styles.input}
+                />
+              </div>
+
+              {/* Profile Picture Upload */}
+              <div className={styles.inputGroup}>
+                <label className={styles.fileLabel}>
+                  Profile Picture (Optional)
+                  <input
+                    type="file"
+                    name="profilePicture"
+                    accept="image/*"
+                    onChange={handleChange}
+                    className={styles.fileInput}
+                  />
+                </label>
+                {formData.profilePicture && (
+                  <span className={styles.fileName}>{formData.profilePicture.name}</span>
+                )}
+              </div>
+
+              {/* CV Upload */}
+              <div className={styles.inputGroup}>
+                <label className={styles.fileLabel}>
+                  Upload CV (PDF only) *
+                  <input
+                    type="file"
+                    name="cvFile"
+                    accept=".pdf"
+                    onChange={handleChange}
+                    required
+                    className={styles.fileInput}
+                  />
+                </label>
+                {formData.cvFile && (
+                  <span className={styles.fileName}>{formData.cvFile.name}</span>
+                )}
+              </div>
+
+              {/* Interested Job Roles */}
+              <div className={styles.inputGroup}>
+                <textarea
+                  name="interestedJobRoles"
+                  placeholder="Interested job roles (e.g., Software Engineer, Data Scientist, Product Manager)"
+                  value={formData.interestedJobRoles}
+                  onChange={handleChange}
+                  required
+                  className={styles.textarea}
+                  rows="3"
                 />
               </div>
               
