@@ -89,11 +89,11 @@ async def register_user(
 
     # ✅ Create user using modified UserCreate model
     user_data = UserCreate(
-        fullName=fullName,
+        fullname=fullName,
         username=username,
         email=email,
         password=password,
-        interestedJobRoles=interestedJobRoles,
+        interested_job_roles=interestedJobRoles,
         profile_picture_url=profile_pic_url,
         cv_url=cv_url
     )

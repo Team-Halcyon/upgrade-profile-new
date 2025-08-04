@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 
 class UserCreate(BaseModel):
-    fullName: str
+    fullname: str
     username: str
     email: str
     password: str
-    interestedJobRoles: str
+    interested_job_roles: str
     profile_picture_url: str | None = None
     cv_url: str | None = None
