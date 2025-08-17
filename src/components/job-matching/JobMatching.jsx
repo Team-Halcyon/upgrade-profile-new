@@ -18,7 +18,7 @@ export default function JobMatching() {
     formData.append('file', file)
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/match-jobs', {
+      const response = await fetch('http://upgrade-profile-new-production.up.railway.app/match-jobs', {
         method: 'POST',
         body: formData,
       })
@@ -51,7 +51,7 @@ export default function JobMatching() {
           <div className={styles.uploadIcon}>📄</div>
           <h3>Upload Your CV</h3>
           <p>Upload your CV in PDF format to get personalized job matches</p>
-          
+
           <label className={styles.uploadButton}>
             <input
               type="file"
