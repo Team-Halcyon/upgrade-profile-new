@@ -54,7 +54,7 @@ export default function MockInterviewPage() {
     setMessages((prev) => [...prev, { role: "user", content: userInput }]);
 
     try {
-      const response = await axios.post("http://upgrade-profile-new-production.up.railway.app/chat", {
+      const response = await axios.post("http://localhost:8000/chat", {
         message: userInput,
         job_role: jobRole,
       });
@@ -145,8 +145,9 @@ export default function MockInterviewPage() {
           AI-Powered Mock Interview
         </h1>
         <p
-          className={`${styles.subtitle} ${animate ? styles.animateSubtitle : ""
-            }`}
+          className={`${styles.subtitle} ${
+            animate ? styles.animateSubtitle : ""
+          }`}
         >
           Practice answering common interview questions and receive instant AI
           feedback
@@ -211,8 +212,9 @@ export default function MockInterviewPage() {
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`${styles.mockMessage} ${msg.role === "user" ? styles.mockUser : styles.mockAssistant
-                  }`}
+                className={`${styles.mockMessage} ${
+                  msg.role === "user" ? styles.mockUser : styles.mockAssistant
+                }`}
               >
                 {msg.content}
               </div>
@@ -242,8 +244,9 @@ export default function MockInterviewPage() {
 
         {feedback && (
           <div
-            className={`${styles.feedbackCard} ${animate ? styles.animateFeedback : ""
-              }`}
+            className={`${styles.feedbackCard} ${
+              animate ? styles.animateFeedback : ""
+            }`}
           >
             <h2 className={styles.feedbackTitle}>Performance Analysis</h2>
 
@@ -334,8 +337,9 @@ export default function MockInterviewPage() {
       </div>
 
       <div
-        className={`${styles.interviewTips} ${animate ? styles.animateTips : ""
-          }`}
+        className={`${styles.interviewTips} ${
+          animate ? styles.animateTips : ""
+        }`}
       >
         <h2 className={styles.tipsTitle}>Interview Tips</h2>
         <div className={styles.tipsList}>

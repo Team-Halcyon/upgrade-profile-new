@@ -1,5 +1,5 @@
 // lib/auth.js
-const API_BASE_URL = 'http://upgrade-profile-new-production.up.railway.app';
+const API_BASE_URL = 'http://localhost:8000';
 
 export async function signUp(formData) {
   try {
@@ -56,8 +56,8 @@ export async function signIn(credentials) {
       message: data.detail || 'Login failed',
     };
   }
-
-
+  
+  
   return {
     success: true,
     token: data.access_token,
