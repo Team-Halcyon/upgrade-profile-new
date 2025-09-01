@@ -54,7 +54,7 @@ export default function MockInterviewPage() {
     setMessages((prev) => [...prev, { role: "user", content: userInput }]);
 
     try {
-      const response = await axios.post("http://localhost:8000/chat", {
+      const response = await axios.post("http://localhost:8001/chat", {
         message: userInput,
         job_role: jobRole,
       });
