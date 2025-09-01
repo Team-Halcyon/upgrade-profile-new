@@ -52,7 +52,7 @@ export default function SkillGapPage() {
       duration: "12 hours",
       rating: 4.8,
       price: "$59.99",
-      image: "/placeholder.svg?height=100&width=200",
+      image: "/images/Advanced React Patterns.png",
     },
     {
       id: 2,
@@ -61,7 +61,7 @@ export default function SkillGapPage() {
       duration: "8 weeks",
       rating: 4.7,
       price: "$49.99/month",
-      image: "/placeholder.svg?height=100&width=200",
+      image: "/images/TypeScript for React Developers.png",
     },
     {
       id: 3,
@@ -70,7 +70,7 @@ export default function SkillGapPage() {
       duration: "15 hours",
       rating: 4.9,
       price: "$39.99",
-      image: "/placeholder.svg?height=100&width=200",
+      image: "/images/Responsive Web Design.png",
     },
   ]
 
