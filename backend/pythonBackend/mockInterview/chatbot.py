@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import pprint
 # Load environment variables
-load_dotenv(dotenv_path='../.env')
+load_dotenv(dotenv_path=r'F:\NEW VS CODE PROJECTS\up\upgrade-profile-new\backend\.env')
 
 app = FastAPI()
 
@@ -114,4 +114,4 @@ async def chat(request: ChatRequest):
 # === DEV SERVER RUNNER ===
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8001)
